@@ -20,20 +20,17 @@ O sistema deve permitir:
 ---
 
 ## 🔍 Requisitos Funcionais
-- RF1: Calcular salário por hora
-- RF2: Calcular adicionais
-- RF3: Calcular benefícios
-- RF4: Calcular descontos
-- RF5: Exibir relatório da folha
-
----
-
-## 📋 Requisitos Não Funcionais
-- Código organizado e modular
-- Aplicar boas práticas de POO
-- Usabilidade simples
-- Testes unitários
-
+- RF1 - Calcular Salário Hora
+- RF2 - Calcular Periculosidade
+- RF3 - Calcular Insalubridade
+- RF4 - Calcular Vale Transporte
+- RF5 - Calcular Vale Alimentação
+- RF6 - Calcular Desconto de INSS
+- RF7 - Calcular FGTS
+- RF8 - Calcular Desconto de IRRF
+- RF9 - Calcular Salário Líquido
+- RF10 - Exibir Relatório
+  
 ---
 
 ## 🛠️ Tecnologias
