@@ -1,7 +1,9 @@
+# funcionario
 
-
-Nome da Classe: funcionario
-Responsabilidades Colaborações
-1. Conhecer seu número de matrícula Histórico Escolar
-2. Conhecer seu nome
-3. Conhecer seu histórico escolar
+| Responsabilidades | Colaborações |
+|-------------------|--------------|
+| Conhecer seu CPF | Pagamento mensal |
+| Conhecer seu nome | Folha de pagamento |
+| Conhecer seu telefone | Grau de insalubridade |
+| Conhecer seu grau de insalubridade |  |
+| Conhecer seu pagamento |  |
