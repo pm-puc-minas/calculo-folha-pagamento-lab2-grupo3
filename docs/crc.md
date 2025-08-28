@@ -116,3 +116,20 @@
 | Conhece os dias úteis | Benefício |
 | Conhece o valor diário | |
 | Conhece a taxa de desconto | |
+=======
+| Vizualizar folha de pagamento |  |
+| conhecer data de adimissão |  |
+
+
+
+# Folha de pagamento
+
+| Responsabilidades | Colaborações |
+|-------------------|--------------|
+| Conhecer dados do funcionario | Funcionario |
+| Conhecer mês de pagamento | Pagamento |
+| conhecer salario líquido | |
+| conhecer salario bruto  | |
+| proventos | |
+| valor trabalho/hora |  |
+
