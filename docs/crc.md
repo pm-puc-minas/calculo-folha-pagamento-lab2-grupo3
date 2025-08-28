@@ -85,3 +85,34 @@
 | Conhece a terceira dedução IRPF |  |
 | Conhece a quarta dedução IRPF |  |
 | Conhece a quinta dedução IRPF |  |
+
+# Periculosidade 
+
+| Responsabilidades | Colaborações |
+|-------------------|--------------|
+| Conhece a taxa de periculosidade | Adicionais |
+
+# Insalubridade 
+
+| Responsabilidades | Colaborações |
+|-------------------|--------------|
+| Conhece o grau de risco baixo | Adicionais |
+| Conhece o grau de risco médio |  |
+| Conhece o grau de risco alto |  |
+| Conhece o adicional baixo |  |
+| Conhece o adicional médio |  |
+| Conhece o adicional alto |  |
+
+# Vale Trasnporte
+
+| Responsabilidades | Colaborações |
+|-------------------|--------------|
+| Conhece a taxa de desconto | Benefício |
+
+# Vale Alimentação
+
+| Responsabilidades | Colaborações |
+|-------------------|--------------|
+| Conhece os dias úteis | Benefício |
+| Conhece o valor diário | |
+| Conhece a taxa de desconto | |
