@@ -1,4 +1,4 @@
-# 📊 Sistema de Cálculo de Folha de Pagamento
+# 📊 Belo Prato RH
 
 Projeto desenvolvido para disciplina de **Programação Modular** na PUC Minas.  
 O objetivo é criar um sistema em **Java com Spring Boot** para gerenciamento de **folha de pagamento**, aplicando conceitos de Programação Orientada a Objetos, modularidade e boas práticas.
