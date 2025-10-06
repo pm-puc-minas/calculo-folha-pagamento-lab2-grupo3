@@ -8,5 +8,8 @@ public class GrauInsalubridade {
     public GrauInsalubridade(int grau){
         this.grau = grau;
     }
+    public int getGrau() {
+        return grau;
+    }
 
 }
