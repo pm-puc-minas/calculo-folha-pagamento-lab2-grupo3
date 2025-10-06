@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import jakarta.persistence.Entity;
 
-@Entity
+//@Entity - VOLTAR QUANDO FOR USAR BANCO
 public class Funcionario {
 
     private String nome;
@@ -39,6 +39,10 @@ public class Funcionario {
     }
     public boolean getPericulosidade() {
         return periculosidade;
+    }
+
+    public String getCpf() {
+        return cpf;
     }
 
 }
