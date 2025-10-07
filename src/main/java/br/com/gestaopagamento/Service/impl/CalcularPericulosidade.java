@@ -2,17 +2,35 @@ package br.com.gestaopagamento.Service.impl;
 
 import java.math.BigDecimal;
 
+import org.springframework.stereotype.Service;
+
 import br.com.gestaopagamento.Models.Funcionario;
 import br.com.gestaopagamento.Service.Adicional;
 
+@Service
 public class CalcularPericulosidade implements Adicional {
 
-    private static final int PORCENTAGEM = 30;
+    private static final BigDecimal PORCENTAGEM = new BigDecimal("0.30");
 
     @Override
     public BigDecimal calcular(Funcionario funcionario){
-        //retornando zero apenas para não dar erro
+        if (funcionario.getPericulosidade()) {
+        return funcionario.getSalarioBruto().multiply(PORCENTAGEM);    
+        }
         return BigDecimal.ZERO;
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
