@@ -6,10 +6,17 @@ import br.com.gestaopagamento.Models.Funcionario;
 import br.com.gestaopagamento.Service.Beneficio;
 
 public class CalcularValeAlimentacao implements Beneficio {
+    private BigDecimal valorDiario;
+    private int diasTrabalhados;
+    private BigDecimal valorTotal;
 
+    public CalcularValeAlimentacao(BigDecimal valorDiario, int diasTrabalhados) {
+        this.valorDiario = valorDiario;
+        this.diasTrabalhados = diasTrabalhados;
+    }
      @Override
     public BigDecimal calcular(Funcionario funcionario){
-        //retornando zero apenas para não dar erro
-        return BigDecimal.ZERO;
+        valorTotal = valorDiario.multiply(BigDecimal.valueOf(diasTrabalhados));
+        return valorTotal;
     }
 }
