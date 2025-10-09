@@ -9,19 +9,19 @@ import br.com.gestaopagamento.Models.Funcionario;
 @Service
 public class FolhaPagamentoService {
 
-     private Funcionario funcionario;
+    private Funcionario funcionario;
     private int mes;
     private BigDecimal horastrabalhadas;
     private BigDecimal salarioLiquido;
     private ArrayList<Adicional> adicionais = new ArrayList<>();
 
-        public FolhaPagamentoService(Funcionario funcionario, int mes, BigDecimal horastrabalhadas){
-            this.funcionario = funcionario;
-            this.mes = mes;
-            this.horastrabalhadas = horastrabalhadas;
-            for (Adicional adicional : adicionais) {
-                salarioLiquido = adicional.calcular(funcionario);
-            }
-
+    public FolhaPagamentoService(Funcionario funcionario, int mes, BigDecimal horastrabalhadas){
+        this.funcionario = funcionario;
+        this.mes = mes;
+        this.horastrabalhadas = horastrabalhadas;
+        for (Adicional adicional : adicionais) {
+            salarioLiquido = adicional.calcular(funcionario);
         }
+
+    }
 }
