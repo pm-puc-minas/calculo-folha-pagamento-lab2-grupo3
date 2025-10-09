@@ -1,6 +1,7 @@
 package br.com.gestaopagamento.Service.impl;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import org.springframework.stereotype.Service;
 
@@ -15,7 +16,7 @@ public class CalcularPericulosidade implements Adicional {
     @Override
     public BigDecimal calcular(Funcionario funcionario){
         if (funcionario.getPericulosidade()) {
-        return funcionario.getSalarioBruto().multiply(PORCENTAGEM);    
+        return funcionario.getSalarioBruto().multiply(PORCENTAGEM).setScale(2, RoundingMode.HALF_UP);    
         }
         return BigDecimal.ZERO;
     }

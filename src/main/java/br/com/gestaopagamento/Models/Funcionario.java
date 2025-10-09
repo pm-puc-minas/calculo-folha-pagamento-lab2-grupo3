@@ -17,14 +17,13 @@ public class Funcionario {
     private boolean periculosidade;
     private ArrayList<FolhaPagamento> pagamentos;
 
-    public Funcionario(String nome, String cpf, String cargo, BigDecimal salarioBruto, boolean periculosidade, GrauInsalubridade grauInsalubridade){
+    public Funcionario(String nome, String cpf, String cargo, BigDecimal salarioBruto, boolean periculosidade, int grau){
             this.nome = nome;
         this.cpf = cpf;
         this.cargo = cargo;
         this.salarioBruto = salarioBruto;
         this.periculosidade = periculosidade;
-        this.grauInsalubridade = grauInsalubridade;
-           
+        this.grauInsalubridade = new GrauInsalubridade(grau);   
         this.pagamentos = new ArrayList<>();
     }
 

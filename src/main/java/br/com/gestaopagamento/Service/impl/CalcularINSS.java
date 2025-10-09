@@ -2,9 +2,12 @@ package br.com.gestaopagamento.Service.impl;
 
 import java.math.BigDecimal;
 
+import org.springframework.stereotype.Service;
+
 import br.com.gestaopagamento.Models.Funcionario;
 import br.com.gestaopagamento.Service.Desconto;
 
+@Service
 public class CalcularINSS implements Desconto {
     private static final BigDecimal aliquota1 = new BigDecimal("0.075");
     private static final BigDecimal aliquota2 = new BigDecimal("0.09");
