@@ -23,8 +23,7 @@ public class Funcionario {
         this.cargo = cargo;
         this.salarioBruto = salarioBruto;
         this.periculosidade = periculosidade;
-        this.grauInsalubridade = grauInsalubridade;
-           
+        this.grauInsalubridade = grauInsalubridade;   
         this.pagamentos = new ArrayList<>();
     }
 
