@@ -62,6 +62,10 @@ public class CalcularIRRF implements Desconto {
             aliquotaEfetiva = baseDeCalculo.multiply(aliquota5).subtract(deducaoIrpf5);
         }
 
+        if (aliquotaEfetiva.compareTo(BigDecimal.ZERO) < 0) {
+            aliquotaEfetiva = BigDecimal.ZERO;
+        }
+
         return aliquotaEfetiva;
     }
 }
