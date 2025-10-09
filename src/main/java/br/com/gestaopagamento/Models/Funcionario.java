@@ -5,10 +5,11 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 
 import jakarta.persistence.Entity;
+import lombok.Getter;
 
 //@Entity - VOLTAR QUANDO FOR USAR BANCO
 public class Funcionario {
-
+    @Getter
     private String nome;
     private String cpf;
     private String cargo;
