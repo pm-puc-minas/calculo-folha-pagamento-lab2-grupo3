@@ -15,16 +15,22 @@ public class Funcionario {
     private BigDecimal salarioBruto;
     private GrauInsalubridade grauInsalubridade;
     private boolean periculosidade;
+    private int qntdDependentes;
+    private double pensaoAlimenticia;
+    private double outrasDeducoes;
     private ArrayList<FolhaPagamento> pagamentos;
 
-    public Funcionario(String nome, String cpf, String cargo, BigDecimal salarioBruto, boolean periculosidade, int grau){
-            this.nome = nome;
+    public Funcionario(String nome, String cpf, String cargo, BigDecimal salarioBruto, boolean periculosidade, int grau, int qntdDependentes, double pensaoAlimenticia, double outrasDeducoes){
+        this.nome = nome;
         this.cpf = cpf;
         this.cargo = cargo;
         this.salarioBruto = salarioBruto;
         this.periculosidade = periculosidade;
         this.grauInsalubridade = new GrauInsalubridade(grau);   
         this.pagamentos = new ArrayList<>();
+        this.qntdDependentes = qntdDependentes;
+        this.pensaoAlimenticia = pensaoAlimenticia;
+        this.outrasDeducoes = outrasDeducoes;
     }
 
 
@@ -42,6 +48,16 @@ public class Funcionario {
 
     public String getCpf() {
         return cpf;
+    }
+
+    public int getQntdDependentes(){
+        return qntdDependentes;
+    }
+    public double getPensaoAlimenticia(){
+        return pensaoAlimenticia;
+    }
+    public double getOutrasDeducoes(){
+        return outrasDeducoes;
     }
 
 }
