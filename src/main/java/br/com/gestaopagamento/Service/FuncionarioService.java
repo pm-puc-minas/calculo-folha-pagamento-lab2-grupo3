@@ -29,4 +29,13 @@ public class FuncionarioService {
     public List<Funcionario> listarTodos(){
         return new ArrayList<>(funcionarioDB.values());
     }
+    
+    public Funcionario atualizar(Funcionario funcionarioAtualizado) {
+        String cpf = funcionarioAtualizado.getCpf();
+        if (!funcionarioDB.containsKey(cpf)) {
+            throw new IllegalArgumentException("Funcionário com CPF " + cpf + " não encontrado");
+        }
+        funcionarioDB.put(cpf, funcionarioAtualizado);
+        return funcionarioAtualizado;
+    }
 }
