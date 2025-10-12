@@ -20,7 +20,7 @@ public class CalcularValeTransporteBeneficioTest {
 
         calcularValeTransporteBeneficio = new CalcularValeTransporteBeneficio(new BigDecimal("200.00"));
 
-        BigDecimal valorEsperado = new BigDecimal("200.00");
+        BigDecimal valorEsperado = new BigDecimal("200");
         BigDecimal valorAtual = calcularValeTransporteBeneficio.calcular(funcionario);
 
         assertEquals(valorEsperado, valorAtual);

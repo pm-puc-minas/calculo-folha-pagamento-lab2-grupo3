@@ -17,7 +17,7 @@ public class CalcularValeAlimentacaoTest {
     public void DeveCalcularVAComMaisDiasTrabalhados()
     {
         Funcionario funcionario = new Funcionario("Carlos Eduardo","98392486378","Garçom",new BigDecimal("1643"),false,1,0,0.0,0.0);
-        BigDecimal valorEsperado = new BigDecimal("624.00");
+        BigDecimal valorEsperado = new BigDecimal("624");
 
         calcularValeAlimentacao = new CalcularValeAlimentacao(new BigDecimal("24"),26);
         BigDecimal valorAtual = calcularValeAlimentacao.calcular(funcionario);
@@ -31,7 +31,7 @@ public class CalcularValeAlimentacaoTest {
 
         calcularValeAlimentacao = new CalcularValeAlimentacao(new BigDecimal("25"), 20);
 
-        BigDecimal valorEsperado = new BigDecimal("500.00");
+        BigDecimal valorEsperado = new BigDecimal("500");
         BigDecimal valorAtual = calcularValeAlimentacao.calcular(funcionario);
 
         assertEquals(valorEsperado, valorAtual);
@@ -43,7 +43,7 @@ public class CalcularValeAlimentacaoTest {
 
         calcularValeAlimentacao = new CalcularValeAlimentacao(new BigDecimal("22"), 0);
 
-        BigDecimal valorEsperado = new BigDecimal("0.00");
+        BigDecimal valorEsperado = new BigDecimal("0");
         BigDecimal valorAtual = calcularValeAlimentacao.calcular(funcionario);
 
         assertEquals(valorEsperado, valorAtual);

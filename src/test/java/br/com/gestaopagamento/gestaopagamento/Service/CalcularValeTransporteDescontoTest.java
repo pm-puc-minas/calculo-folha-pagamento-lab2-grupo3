@@ -20,7 +20,7 @@ public class CalcularValeTransporteDescontoTest {
 
         calcularValeTransporteDesconto = new CalcularValeTransporteDesconto(new BigDecimal("150.00"));
 
-        BigDecimal valorEsperado = new BigDecimal("120.00");
+        BigDecimal valorEsperado = new BigDecimal("120");
         BigDecimal valorAtual = calcularValeTransporteDesconto.calcular(funcionario);
 
         assertEquals(valorEsperado, valorAtual);
@@ -32,7 +32,7 @@ public class CalcularValeTransporteDescontoTest {
 
         calcularValeTransporteDesconto = new CalcularValeTransporteDesconto(new BigDecimal("200.00"));
 
-        BigDecimal valorEsperado = new BigDecimal("200.00");
+        BigDecimal valorEsperado = new BigDecimal("200");
         BigDecimal valorAtual = calcularValeTransporteDesconto.calcular(funcionario);
 
         assertEquals(valorEsperado, valorAtual);
@@ -44,7 +44,7 @@ public class CalcularValeTransporteDescontoTest {
 
         calcularValeTransporteDesconto = new CalcularValeTransporteDesconto(new BigDecimal("180.00"));
 
-        BigDecimal valorEsperado = new BigDecimal("0.00");
+        BigDecimal valorEsperado = new BigDecimal("0");
         BigDecimal valorAtual = calcularValeTransporteDesconto.calcular(funcionario);
 
         assertEquals(valorEsperado, valorAtual);
