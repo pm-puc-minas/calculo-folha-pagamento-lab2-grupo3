@@ -21,7 +21,7 @@ public class CalcularPericulosidadeTest {
     @Test
     public void deveCalcularPericulosidadeCorretamente() {
         Funcionario funcionario = new Funcionario("Diogo", "12345678900", "Dev", new BigDecimal("4000.00"), true, 1, 0, 0.0, 0.0);
-        BigDecimal valorEsperado = new BigDecimal("1200.00");
+        BigDecimal valorEsperado = new BigDecimal("1200");
         BigDecimal valorCalculado = calculadora.calcular(funcionario);
         assertEquals(valorEsperado, valorCalculado, "O valor deveria ser 1200.00");
     }

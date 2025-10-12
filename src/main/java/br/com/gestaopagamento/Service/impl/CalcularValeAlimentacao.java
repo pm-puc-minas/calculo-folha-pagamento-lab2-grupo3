@@ -12,7 +12,7 @@ public class CalcularValeAlimentacao implements Beneficio {
 
     public CalcularValeAlimentacao(BigDecimal valorDiario, int diasTrabalhados) {
         this.valorDiario = valorDiario;
-        this.diasTrabalhados = diasTrabalhados;
+        this.diasTrabalhados = diasTrabalhados / 24;
     }
      @Override
     public BigDecimal calcular(Funcionario funcionario){
