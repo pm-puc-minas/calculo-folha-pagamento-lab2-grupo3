@@ -18,17 +18,15 @@ public class CalcularInsalubridade implements Adicional {
 
     @Override
     public BigDecimal calcular(Funcionario funcionario){
-        if (funcionario.getGrauInsalubridade().getGrau()==1) {
-       
-            return SALARIO_MINIMO.multiply(PORCENTAGEM_BAIXA).setScale(2, RoundingMode.HALF_UP);
-       
-        }else if (funcionario.getGrauInsalubridade().getGrau()==2) {
-           
-            return SALARIO_MINIMO.multiply(PORCENTAGEM_MEDIA).setScale(2, RoundingMode.HALF_UP);
-        
-        }else{
-        
-            return SALARIO_MINIMO.multiply(PORCENTAGEM_ALTA).setScale(2, RoundingMode.HALF_UP);
+        switch (funcionario.getGrauInsalubridade()) {
+            case BAIXO:
+                return SALARIO_MINIMO.multiply(PORCENTAGEM_BAIXA).setScale(2, RoundingMode.HALF_UP);
+            case MEDIO:
+                return SALARIO_MINIMO.multiply(PORCENTAGEM_MEDIA).setScale(2, RoundingMode.HALF_UP);
+            case ALTO:
+                return SALARIO_MINIMO.multiply(PORCENTAGEM_ALTA).setScale(2, RoundingMode.HALF_UP);
+            default:
+                throw new IllegalArgumentException("Grau de insalubridade inválido");
         }
     }
 }

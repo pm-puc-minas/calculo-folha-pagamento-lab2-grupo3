@@ -1,8 +1,7 @@
 package br.com.gestaopagamento.Models;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.ArrayList;
+//import java.util.ArrayList;
 
 import jakarta.persistence.Entity;
 
@@ -18,21 +17,24 @@ public class Funcionario {
     private int qntdDependentes;
     private double pensaoAlimenticia;
     private double outrasDeducoes;
-    private ArrayList<FolhaPagamento> pagamentos;
+    //private ArrayList<FolhaPagamento> pagamentos;  Ainda não estamos usando (não tem nenhum requisito que peça isso)
 
-    public Funcionario(String nome, String cpf, String cargo, BigDecimal salarioBruto, boolean periculosidade, int grau, int qntdDependentes, double pensaoAlimenticia, double outrasDeducoes){
+    public Funcionario() {
+       // this.pagamentos = new ArrayList<>();
+    }
+
+    public Funcionario(String nome, String cpf, String cargo, BigDecimal salarioBruto, boolean periculosidade, int grauInsalubridade, int qntdDependentes, double pensaoAlimenticia, double outrasDeducoes){
         this.nome = nome;
         this.cpf = cpf;
         this.cargo = cargo;
         this.salarioBruto = salarioBruto;
         this.periculosidade = periculosidade;
-        this.grauInsalubridade = new GrauInsalubridade(grau);   
-        this.pagamentos = new ArrayList<>();
+        this.grauInsalubridade = GrauInsalubridade.fromInt(grauInsalubridade);
+        //this.pagamentos = new ArrayList<>();
         this.qntdDependentes = qntdDependentes;
         this.pensaoAlimenticia = pensaoAlimenticia;
         this.outrasDeducoes = outrasDeducoes;
     }
-
 
     //getters
     public BigDecimal getSalarioBruto() {
@@ -59,5 +61,35 @@ public class Funcionario {
     public double getOutrasDeducoes(){
         return outrasDeducoes;
     }
+    public String getNome() {
+        return nome;
+    }
+    public String getCargo() {
+        return cargo;
+    }
 
+
+    //setters
+
+    public void setCargo(String cargo) {
+        this.cargo = cargo;
+    }
+    public void setSalarioBruto(BigDecimal salarioBruto) {
+        this.salarioBruto = salarioBruto;
+    }
+    public void setPericulosidade(boolean periculosidade) {
+        this.periculosidade = periculosidade;
+    }
+    public void setGrauInsalubridade(int grauInsalubridade) {
+        this.grauInsalubridade = GrauInsalubridade.fromInt(grauInsalubridade);
+    }
+    public void setQntdDependentes(int qntdDependentes) {
+        this.qntdDependentes = qntdDependentes;
+    }
+    public void setPensaoAlimenticia(double pensaoAlimenticia) {
+        this.pensaoAlimenticia = pensaoAlimenticia;
+    }
+    public void setOutrasDeducoes(double outrasDeducoes) {
+        this.outrasDeducoes = outrasDeducoes;
+    }
 }

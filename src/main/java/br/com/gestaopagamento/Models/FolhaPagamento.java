@@ -21,6 +21,25 @@ public class FolhaPagamento {
         this.ValorValeTransporte = ValorValeTransporte;
 
     }
+
+    public Funcionario getFuncionario() {
+        return funcionario;
+    }
+    public int getMes() {
+        return mes;
+    }
+    public BigDecimal getHorastrabalhadas() {
+        return horastrabalhadas;
+    }
+    public BigDecimal getSalarioLiquido() {
+        return salarioLiquido;
+    }
+    public BigDecimal getValorValeAlimentacao() {
+        return ValorValeAlimentacao;
+    }
+    public BigDecimal getValorValeTransporte() {
+        return ValorValeTransporte;
+    }
 }
    
 

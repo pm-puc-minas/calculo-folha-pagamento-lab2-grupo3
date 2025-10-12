@@ -1,15 +1,26 @@
 package br.com.gestaopagamento.Models;
 
-public class GrauInsalubridade {
+public enum GrauInsalubridade {
+    BAIXO(1),
+    MEDIO(2),
+    ALTO(3);
 
-    // 1 = baixo; 2 = medio; 3 = alto
-    private int grau;
+    private final int valor;
 
-    public GrauInsalubridade(int grau){
-        this.grau = grau;
+    GrauInsalubridade(int valor) {
+        this.valor = valor;
     }
-    public int getGrau() {
-        return grau;
+
+    public int getValor() {
+        return valor;
     }
 
+    public static GrauInsalubridade fromInt(int grau) {
+        switch (grau) {
+            case 1: return BAIXO;
+            case 2: return MEDIO;
+            case 3: return ALTO;
+            default: throw new IllegalArgumentException("Grau de insalubridade inválido: " + grau);
+        }
+    }
 }
