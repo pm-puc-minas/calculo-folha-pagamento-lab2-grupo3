@@ -3,9 +3,9 @@ package br.com.gestaopagamento.Service.impl;
 import java.math.BigDecimal;
 
 import br.com.gestaopagamento.Models.Funcionario;
-import br.com.gestaopagamento.Service.Beneficio;
+import br.com.gestaopagamento.Service.IBeneficio;
 
-public class CalcularValeAlimentacao implements Beneficio {
+public class CalcularValeAlimentacao implements IBeneficio {
     private BigDecimal valorDiario;
     private int diasTrabalhados;
     private BigDecimal valorTotal;

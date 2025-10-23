@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 import br.com.gestaopagamento.Models.Funcionario;
 
-public interface Beneficio {
+public interface IDesconto {
 
      BigDecimal calcular(Funcionario funcionario);
 }

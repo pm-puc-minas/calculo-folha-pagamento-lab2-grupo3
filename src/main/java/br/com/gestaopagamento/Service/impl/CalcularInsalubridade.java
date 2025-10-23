@@ -6,9 +6,9 @@ import java.math.RoundingMode;
 import org.springframework.stereotype.Service;
 
 import br.com.gestaopagamento.Models.Funcionario;
-import br.com.gestaopagamento.Service.Adicional;
+import br.com.gestaopagamento.Service.IAdicional;
 @Service
-public class CalcularInsalubridade implements Adicional {
+public class CalcularInsalubridade implements IAdicional {
 
     private static final BigDecimal PORCENTAGEM_BAIXA = new BigDecimal("0.10");
     private static final BigDecimal PORCENTAGEM_MEDIA = new BigDecimal("0.20");

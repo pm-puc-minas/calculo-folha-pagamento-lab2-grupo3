@@ -6,10 +6,10 @@ import java.math.RoundingMode;
 import org.springframework.stereotype.Service;
 
 import br.com.gestaopagamento.Models.Funcionario;
-import br.com.gestaopagamento.Service.Adicional;
+import br.com.gestaopagamento.Service.IAdicional;
 
 @Service
-public class CalcularPericulosidade implements Adicional {
+public class CalcularPericulosidade implements IAdicional {
 
     private static final BigDecimal PORCENTAGEM = new BigDecimal("0.30");
 
