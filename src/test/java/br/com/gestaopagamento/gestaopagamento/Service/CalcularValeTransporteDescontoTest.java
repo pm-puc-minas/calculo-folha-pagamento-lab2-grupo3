@@ -1,12 +1,14 @@
 package br.com.gestaopagamento.gestaopagamento.Service;
 
 import br.com.gestaopagamento.Models.Funcionario;
+import br.com.gestaopagamento.Models.GrauInsalubridade; // <-- IMPORTAR O ENUM
 import br.com.gestaopagamento.Service.impl.CalcularValeTransporteDesconto;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
-
+import java.math.BigDecimal;
+import br.com.gestaopagamento.Models.GrauInsalubridade;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
@@ -14,13 +16,30 @@ public class CalcularValeTransporteDescontoTest {
 
     private CalcularValeTransporteDesconto calcularValeTransporteDesconto;
 
+    // Função auxiliar para criar o funcionário
+    private Funcionario criarFuncionario(String nome, String cpf, String cargo, String salario) {
+        Funcionario funcionario = new Funcionario();
+        funcionario.setNome(nome);
+        funcionario.setCpf(cpf);
+        funcionario.setCargo(cargo);
+        funcionario.setSalarioBruto(new BigDecimal(salario));
+        funcionario.setPericulosidade(false);
+        funcionario.setGrauInsalubridade(GrauInsalubridade.fromInt(1));
+        funcionario.setPensaoAlimenticia(new BigDecimal("0.0"));
+        funcionario.setOutrasDeducoes(new BigDecimal("0.0"));
+        return funcionario;
+    }
+
     @Test
     public void DeveCalcularDescontoQuandoMenorQueValorVT() {
-        Funcionario funcionario = new Funcionario("Ana Beatriz", "12345678900", "Recepcionista", new BigDecimal("2000"), false, 1, 0, 0.0, 0.0);
+        // --- CORREÇÃO AQUI ---
+        Funcionario funcionario = criarFuncionario("Ana Beatriz", "12345678900", "Recepcionista", "2000.00");
+        // --- FIM DA CORREÇÃO ---
 
         calcularValeTransporteDesconto = new CalcularValeTransporteDesconto(new BigDecimal("150.00"));
-
-        BigDecimal valorEsperado = new BigDecimal("120");
+        
+        // 6% de 2000.00 = 120.00
+        BigDecimal valorEsperado = new BigDecimal("120.00"); // Use .00
         BigDecimal valorAtual = calcularValeTransporteDesconto.calcular(funcionario);
 
         assertEquals(valorEsperado, valorAtual);
@@ -28,11 +47,15 @@ public class CalcularValeTransporteDescontoTest {
 
     @Test
     public void DeveAplicarTetoQuandoDescontoMaiorQueValorVT() {
-        Funcionario funcionario = new Funcionario("Carlos Eduardo", "98765432100", "Garçom", new BigDecimal("4000"), false, 1, 0, 0.0, 0.0);
+        // --- CORREÇÃO AQUI ---
+        Funcionario funcionario = criarFuncionario("Carlos Eduardo", "98765432100", "Garçom", "4000.00");
+        // --- FIM DA CORREÇÃO ---
 
         calcularValeTransporteDesconto = new CalcularValeTransporteDesconto(new BigDecimal("200.00"));
 
-        BigDecimal valorEsperado = new BigDecimal("200");
+        // 6% de 4000.00 = 240.00.
+        // Como 240.00 > 200.00 (teto do benefício), o desconto deve ser 200.00
+        BigDecimal valorEsperado = new BigDecimal("200.00"); // Use .00
         BigDecimal valorAtual = calcularValeTransporteDesconto.calcular(funcionario);
 
         assertEquals(valorEsperado, valorAtual);
@@ -40,11 +63,13 @@ public class CalcularValeTransporteDescontoTest {
 
     @Test
     public void DeveRetornarZeroQuandoSalarioForZero() {
-        Funcionario funcionario = new Funcionario("João Pedro", "11122233344", "Estagiário", new BigDecimal("0.00"), false, 1, 0, 0.0, 0.0);
+        // --- CORREÇÃO AQUI ---
+        Funcionario funcionario = criarFuncionario("João Pedro", "11122233344", "Estagiário", "0.00");
+        // --- FIM DA CORREÇÃO ---
 
         calcularValeTransporteDesconto = new CalcularValeTransporteDesconto(new BigDecimal("180.00"));
 
-        BigDecimal valorEsperado = new BigDecimal("0");
+        BigDecimal valorEsperado = new BigDecimal("0.00"); // Use .00
         BigDecimal valorAtual = calcularValeTransporteDesconto.calcular(funcionario);
 
         assertEquals(valorEsperado, valorAtual);
