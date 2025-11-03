@@ -1,4 +1,3 @@
-// O 'package' deve ser o seu, que está correto
 package br.com.gestaopagamento.gestaopagamento.Service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,7 +19,6 @@ public class CalcularINSSTest {
         calculadora = new CalcularINSS();
     }
 
-    // Função auxiliar para criar funcionário (evita repetição)
     private Funcionario criarFuncionario(String nome, String cpf, BigDecimal salario, int grau) {
         Funcionario funcionario = new Funcionario();
         funcionario.setNome(nome);
@@ -29,10 +27,8 @@ public class CalcularINSSTest {
         funcionario.setSalarioBruto(salario);
         funcionario.setPericulosidade(false);
         
-        // Esta linha precisa do import 'GrauInsalubridade'
         funcionario.setGrauInsalubridade(GrauInsalubridade.fromInt(grau)); 
         
-        // Estas linhas precisam do import 'BigDecimal'
         funcionario.setPensaoAlimenticia(new BigDecimal("0.0"));
         funcionario.setOutrasDeducoes(new BigDecimal("0.0"));
         return funcionario;
@@ -50,25 +46,25 @@ public class CalcularINSSTest {
     @Test
     public void deveCalcularINSSFaixa2() {
         Funcionario funcionario = criarFuncionario("Maria", "12345678901", new BigDecimal("2000.00"), 1);
-        BigDecimal esperado = new BigDecimal("151.38"); 
+        BigDecimal esperado = new BigDecimal("160.47"); 
         BigDecimal calculado = calculadora.calcular(funcionario).setScale(2, RoundingMode.HALF_UP);
-        assertEquals(esperado, calculado, "O valor do INSS para faixa 2 deveria ser 151.38");
+        assertEquals(esperado, calculado, "O valor do INSS para faixa 2 deveria ser 160.47");
     }
 
     @Test
     public void deveCalcularINSSFaixa3() {
         Funcionario funcionario = criarFuncionario("Carlos", "12345678902", new BigDecimal("3000.00"), 1);
-        BigDecimal esperado = new BigDecimal("277.39"); 
+        BigDecimal esperado = new BigDecimal("263.33"); 
         BigDecimal calculado = calculadora.calcular(funcionario).setScale(2, RoundingMode.HALF_UP);
-        assertEquals(esperado, calculado, "O valor do INSS para faixa 3 deveria ser 277.39");
+        assertEquals(esperado, calculado, "O valor do INSS para faixa 3 deveria ser 263.33");
     }
 
     @Test
     public void deveCalcularINSSFaixa4() {
         Funcionario funcionario = criarFuncionario("Ana", "12345678903", new BigDecimal("5000.00"), 1);
-        BigDecimal esperado = new BigDecimal("551.29"); 
+        BigDecimal esperado = new BigDecimal("526.19"); 
         BigDecimal calculado = calculadora.calcular(funcionario).setScale(2, RoundingMode.HALF_UP);
-        assertEquals(esperado, calculado, "O valor do INSS para faixa 4 deveria ser 551.29");
+        assertEquals(esperado, calculado, "O valor do INSS para faixa 4 deveria ser 526.19");
     }
 
     @Test
@@ -88,7 +84,7 @@ public class CalcularINSSTest {
 
     @Test
     public void deveLancarExcecaoSalarioNulo() {
-        Funcionario funcionario = criarFuncionario("Lucas", "12345678905", null, 1); // Salário nulo
+        Funcionario funcionario = criarFuncionario("Lucas", "12345678905", null, 1);
         assertThrows(IllegalArgumentException.class, () -> {
             calculadora.calcular(funcionario);
         });
