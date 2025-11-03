@@ -1,6 +1,7 @@
 package br.com.gestaopagamento.Service.impl;
 
 import java.math.BigDecimal;
+import java.util.Optional; // <-- IMPORTANTE ADICIONAR
 
 import br.com.gestaopagamento.Models.Funcionario;
 import br.com.gestaopagamento.Service.IDesconto;
@@ -8,20 +9,20 @@ import br.com.gestaopagamento.Service.IDesconto;
 public class CalcularIRRF implements IDesconto {
     private static final BigDecimal DeducaoPorDependete = new BigDecimal("189.59");
 
+    // ... (Suas constantes de teto e alíquota estão perfeitas) ...
     private static final BigDecimal aliquota2 = new BigDecimal("0.075");
     private static final BigDecimal aliquota3 = new BigDecimal("0.15");
     private static final BigDecimal aliquota4 = new BigDecimal("0.225");
     private static final BigDecimal aliquota5 = new BigDecimal("0.275");
-
     private static final BigDecimal deducaoIrpf2 = new BigDecimal("142.80");
     private static final BigDecimal deducaoIrpf3 = new BigDecimal("354.80");
     private static final BigDecimal deducaoIrpf4 = new BigDecimal("636.13");
     private static final BigDecimal deducaoIrpf5 = new BigDecimal("869.36");
-
     private static final BigDecimal teto1 = new BigDecimal("1903.98");
     private static final BigDecimal teto2 = new BigDecimal("2826.65");
     private static final BigDecimal teto3 = new BigDecimal("3751.05");
     private static final BigDecimal teto4 = new BigDecimal("4664.68");
+
 
     @Override
     public BigDecimal calcular(Funcionario funcionario){
@@ -31,10 +32,19 @@ public class CalcularIRRF implements IDesconto {
 
         BigDecimal salarioBase = funcionario.getSalarioBruto().subtract(valorInss);
 
-        //Calcula a base de cálculo
-        BigDecimal qntdDependentes = BigDecimal.valueOf(funcionario.getQntdDependentes());
-        BigDecimal pensaoAlimenticia = BigDecimal.valueOf(funcionario.getPensaoAlimenticia());
-        BigDecimal outrasDeducoes = BigDecimal.valueOf(funcionario.getOutrasDeducoes());
+        // --- CORREÇÃO AQUI ---
+
+        // 1. Trocamos 'getQntdDependentes()' por 'getDependentes().size()'
+        //    O 'Funcionario' novo tem uma LISTA de dependentes.
+        BigDecimal qntdDependentes = new BigDecimal(funcionario.getDependentes().size());
+
+        // 2. Trocamos 'BigDecimal.valueOf(getDouble())' por 'getBigDecimal()'
+        //    Os campos já são BigDecimal, não precisamos converter.
+        //    Usamos 'Optional...orElse' para evitar erro se o valor for nulo no banco.
+        BigDecimal pensaoAlimenticia = Optional.ofNullable(funcionario.getPensaoAlimenticia()).orElse(BigDecimal.ZERO);
+        BigDecimal outrasDeducoes = Optional.ofNullable(funcionario.getOutrasDeducoes()).orElse(BigDecimal.ZERO);
+
+        // --- FIM DA CORREÇÃO ---
 
         BigDecimal baseDeCalculo = salarioBase.subtract(qntdDependentes.multiply(DeducaoPorDependete));
         baseDeCalculo = baseDeCalculo.subtract(pensaoAlimenticia).subtract(outrasDeducoes);

@@ -15,23 +15,14 @@ public class CalcularPericulosidade implements IAdicional {
 
     @Override
     public BigDecimal calcular(Funcionario funcionario){
-        if (funcionario.getPericulosidade()) {
-        return funcionario.getSalarioBruto().multiply(PORCENTAGEM).setScale(2, RoundingMode.HALF_UP);    
+        
+        // --- CORREÇÃO AQUI ---
+        // O getter para um 'boolean periculosidade' gerado pelo Lombok é 'isPericulosidade()'
+        if (funcionario.isPericulosidade()) { 
+            return funcionario.getSalarioBruto().multiply(PORCENTAGEM).setScale(2, RoundingMode.HALF_UP);      
         }
+        // --- FIM DA CORREÇÃO ---
+
         return BigDecimal.ZERO;
     }
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

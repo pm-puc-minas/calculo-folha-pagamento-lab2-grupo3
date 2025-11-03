@@ -1,37 +1,58 @@
 package br.com.gestaopagamento.gestaopagamento.Service;
 
 import br.com.gestaopagamento.Models.Funcionario;
+import br.com.gestaopagamento.Models.GrauInsalubridade; // <-- IMPORTAR O ENUM
 import br.com.gestaopagamento.Service.impl.CalcularValeAlimentacao;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.math.BigDecimal;
-
+import java.math.BigDecimal;
+import br.com.gestaopagamento.Models.GrauInsalubridade;
 @SpringBootTest
 public class CalcularValeAlimentacaoTest {
 
     private CalcularValeAlimentacao calcularValeAlimentacao;
 
+    // Função auxiliar para criar o funcionário
+    private Funcionario criarFuncionario(String nome, String cpf, String cargo, String salario) {
+        Funcionario funcionario = new Funcionario();
+        funcionario.setNome(nome);
+        funcionario.setCpf(cpf);
+        funcionario.setCargo(cargo);
+        funcionario.setSalarioBruto(new BigDecimal(salario));
+        funcionario.setPericulosidade(false);
+        funcionario.setGrauInsalubridade(GrauInsalubridade.fromInt(1));
+        funcionario.setPensaoAlimenticia(new BigDecimal("0.0"));
+        funcionario.setOutrasDeducoes(new BigDecimal("0.0"));
+        return funcionario;
+    }
+
     @Test
     public void DeveCalcularVAComMaisDiasTrabalhados()
     {
-        Funcionario funcionario = new Funcionario("Carlos Eduardo","98392486378","Garçom",new BigDecimal("1643"),false,1,0,0.0,0.0);
-        BigDecimal valorEsperado = new BigDecimal("624.00");
+        // --- CORREÇÃO AQUI ---
+        Funcionario funcionario = criarFuncionario("Carlos Eduardo","98392486378","Garçom", "1643.00");
+        // --- FIM DA CORREÇÃO ---
+        
+        BigDecimal valorEsperado = new BigDecimal("624.00"); // Use .00 para escala
 
-        calcularValeAlimentacao = new CalcularValeAlimentacao(new BigDecimal("24"),26);
+        calcularValeAlimentacao = new CalcularValeAlimentacao(new BigDecimal("24.00"),26);
         BigDecimal valorAtual = calcularValeAlimentacao.calcular(funcionario);
 
-        assertEquals(valorEsperado,valorAtual);
+        assertEquals(valorEsperado, valorAtual);
     }
     @Test
     public void DeveCalcularVAComMenosDiasTrabalhados()
     {
-        Funcionario funcionario = new Funcionario("Mariana Silva", "98765432100", "Atendente",new BigDecimal("2000"), false, 1, 0, 0.0, 0.0);
+        // --- CORREÇÃO AQUI ---
+        Funcionario funcionario = criarFuncionario("Mariana Silva", "98765432100", "Atendente", "2000.00");
+        // --- FIM DA CORREÇÃO ---
 
-        calcularValeAlimentacao = new CalcularValeAlimentacao(new BigDecimal("25"), 20);
+        calcularValeAlimentacao = new CalcularValeAlimentacao(new BigDecimal("25.00"), 20);
 
-        BigDecimal valorEsperado = new BigDecimal("500.00");
+        BigDecimal valorEsperado = new BigDecimal("500.00"); // Use .00 para escala
         BigDecimal valorAtual = calcularValeAlimentacao.calcular(funcionario);
 
         assertEquals(valorEsperado, valorAtual);
@@ -39,11 +60,13 @@ public class CalcularValeAlimentacaoTest {
     @Test
     public void DeveRetornarZeroQuandoFuncionarioNaoTrabalhou()
     {
-        Funcionario funcionario = new Funcionario("João Pereira", "11223344556", "Cozinheiro",new BigDecimal("1800"), false, 1, 0, 0.0, 0.0);
+        // --- CORREÇÃO AQUI ---
+        Funcionario funcionario = criarFuncionario("João Pereira", "11223344556", "Cozinheiro", "1800.00");
+        // --- FIM DA CORREÇÃO ---
 
-        calcularValeAlimentacao = new CalcularValeAlimentacao(new BigDecimal("22"), 0);
+        calcularValeAlimentacao = new CalcularValeAlimentacao(new BigDecimal("22.00"), 0);
 
-        BigDecimal valorEsperado = new BigDecimal("0.00");
+        BigDecimal valorEsperado = new BigDecimal("0.00"); // Use .00 para escala
         BigDecimal valorAtual = calcularValeAlimentacao.calcular(funcionario);
 
         assertEquals(valorEsperado, valorAtual);

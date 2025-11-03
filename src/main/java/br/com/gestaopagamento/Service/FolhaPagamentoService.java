@@ -1,14 +1,22 @@
 package br.com.gestaopagamento.Service;
 
-import br.com.gestaopagamento.Models.Funcionario;
-import br.com.gestaopagamento.Models.FolhaPagamento;
-import br.com.gestaopagamento.Service.impl.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+
+import br.com.gestaopagamento.Models.FolhaPagamento;
+import br.com.gestaopagamento.Models.Funcionario;
+import br.com.gestaopagamento.Service.impl.CalcularINSS; // <-- IMPORTANTE ADICIONAR
+import br.com.gestaopagamento.Service.impl.CalcularIRRF;
+import br.com.gestaopagamento.Service.impl.CalcularInsalubridade;
+import br.com.gestaopagamento.Service.impl.CalcularPericulosidade;
+import br.com.gestaopagamento.Service.impl.CalcularValeAlimentacao;
+import br.com.gestaopagamento.Service.impl.CalcularValeTransporteBeneficio;
+import br.com.gestaopagamento.Service.impl.CalcularValeTransporteDesconto;
 
 public class FolhaPagamentoService {
     private final Map<String, FolhaPagamento> folhaPagamentoDB = new HashMap<>();
@@ -39,25 +47,29 @@ public class FolhaPagamentoService {
 
         // Salário líquido
         BigDecimal salarioLiquido = salarioBruto
-            .add(valorInsalubridade)
-            .add(valorPericulosidade)
-            .add(valorValeAlimentacao)
-            .add(valorValeTransporte)
-            .subtract(valorINSS)
-            .subtract(valorIRRF)
-            .subtract(valorDescontoVT)
-            .subtract(BigDecimal.valueOf(funcionario.getPensaoAlimenticia()))
-            .subtract(BigDecimal.valueOf(funcionario.getOutrasDeducoes()));
+                .add(valorInsalubridade)
+                .add(valorPericulosidade)
+                .add(valorValeAlimentacao)
+                .add(valorValeTransporte)
+                .subtract(valorINSS)
+                .subtract(valorIRRF)
+                .subtract(valorDescontoVT)
+                // --- CORREÇÃO AQUI ---
+                // Removemos 'BigDecimal.valueOf()' pois os campos já são BigDecimal
+                // E usamos 'Optional...orElse' para evitar erro se for nulo no banco
+                .subtract(Optional.ofNullable(funcionario.getPensaoAlimenticia()).orElse(BigDecimal.ZERO))
+                .subtract(Optional.ofNullable(funcionario.getOutrasDeducoes()).orElse(BigDecimal.ZERO));
+                // --- FIM DA CORREÇÃO ---
 
         salarioLiquido = salarioLiquido.setScale(2, RoundingMode.HALF_UP);
 
         FolhaPagamento folhaPagamento = new FolhaPagamento(
-            funcionario,
-            mes,
-            horasTrabalhadas,
-            salarioLiquido,
-            valorValeAlimentacao,
-            valorValeTransporte
+                funcionario,
+                mes,
+                horasTrabalhadas,
+                salarioLiquido,
+                valorValeAlimentacao,
+                valorValeTransporte
         );
 
         folhaPagamentoDB.put(funcionario+ "-" + mes, folhaPagamento);
@@ -67,5 +79,4 @@ public class FolhaPagamentoService {
     public List<FolhaPagamento> listarTodos(){
         return new ArrayList<>(folhaPagamentoDB.values());
     }
-
 }

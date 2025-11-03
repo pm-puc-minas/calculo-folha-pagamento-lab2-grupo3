@@ -1,95 +1,63 @@
 package br.com.gestaopagamento.Models;
 
+import jakarta.persistence.*;
 import java.math.BigDecimal;
-//import java.util.ArrayList;
+import java.util.ArrayList;
+import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
-import jakarta.persistence.Entity;
-
-//@Entity - VOLTAR QUANDO FOR USAR BANCO
+@Getter
+@Setter
+@Entity // <-- ANOTAÇÃO ATIVADA
+@Table(name = "funcionario") // Define o nome da tabela
 public class Funcionario {
 
+    @Id // <-- Chave Primária
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // <-- ID Auto-incrementado
+    private Long id;
+
+    @Column(name = "nome", nullable = false)
     private String nome;
+
+    @Column(name = "cpf", nullable = false, unique = true, length = 11)
     private String cpf;
+
+    @Column(name = "cargo")
     private String cargo;
+
+    @Column(name = "salario_bruto", nullable = false, precision = 10, scale = 2)
     private BigDecimal salarioBruto;
+
+    // Diz ao JPA para salvar o nome do Enum (ex: "BAIXO", "MEDIO")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "grau_insalubridade")
     private GrauInsalubridade grauInsalubridade;
+
+    @Column(name = "periculosidade")
     private boolean periculosidade;
-    private int qntdDependentes;
-    private double pensaoAlimenticia;
-    private double outrasDeducoes;
-    //private ArrayList<FolhaPagamento> pagamentos;  Ainda não estamos usando (não tem nenhum requisito que peça isso)
 
+    // MUDANÇA: 'double' para 'BigDecimal'
+    @Column(name = "pensao_alimenticia", precision = 10, scale = 2)
+    private BigDecimal pensaoAlimenticia;
+
+    // MUDANÇA: 'double' para 'BigDecimal'
+    @Column(name = "outras_deducoes", precision = 10, scale = 2)
+    private BigDecimal outrasDeducoes;
+
+    // MUDANÇA: Trocamos 'qntdDependentes' pela lista real
+    @OneToMany(
+            mappedBy = "funcionario",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
+    )
+    private List<Dependente> dependentes = new ArrayList<>();
+
+    // Construtor vazio é obrigatório para o JPA
     public Funcionario() {
-       // this.pagamentos = new ArrayList<>();
     }
 
-    public Funcionario(String nome, String cpf, String cargo, BigDecimal salarioBruto, boolean periculosidade, int grauInsalubridade, int qntdDependentes, double pensaoAlimenticia, double outrasDeducoes){
-        this.nome = nome;
-        this.cpf = cpf;
-        this.cargo = cargo;
-        this.salarioBruto = salarioBruto;
-        this.periculosidade = periculosidade;
-        this.grauInsalubridade = GrauInsalubridade.fromInt(grauInsalubridade);
-        //this.pagamentos = new ArrayList<>();
-        this.qntdDependentes = qntdDependentes;
-        this.pensaoAlimenticia = pensaoAlimenticia;
-        this.outrasDeducoes = outrasDeducoes;
-    }
-
-    //getters
-    public BigDecimal getSalarioBruto() {
-        return salarioBruto;
-    }
-
-    public GrauInsalubridade getGrauInsalubridade() {
-        return grauInsalubridade;
-    }
-    public boolean getPericulosidade() {
-        return periculosidade;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public int getQntdDependentes(){
-        return qntdDependentes;
-    }
-    public double getPensaoAlimenticia(){
-        return pensaoAlimenticia;
-    }
-    public double getOutrasDeducoes(){
-        return outrasDeducoes;
-    }
-    public String getNome() {
-        return nome;
-    }
-    public String getCargo() {
-        return cargo;
-    }
-
-
-    //setters
-
-    public void setCargo(String cargo) {
-        this.cargo = cargo;
-    }
-    public void setSalarioBruto(BigDecimal salarioBruto) {
-        this.salarioBruto = salarioBruto;
-    }
-    public void setPericulosidade(boolean periculosidade) {
-        this.periculosidade = periculosidade;
-    }
-    public void setGrauInsalubridade(int grauInsalubridade) {
-        this.grauInsalubridade = GrauInsalubridade.fromInt(grauInsalubridade);
-    }
-    public void setQntdDependentes(int qntdDependentes) {
-        this.qntdDependentes = qntdDependentes;
-    }
-    public void setPensaoAlimenticia(double pensaoAlimenticia) {
-        this.pensaoAlimenticia = pensaoAlimenticia;
-    }
-    public void setOutrasDeducoes(double outrasDeducoes) {
-        this.outrasDeducoes = outrasDeducoes;
-    }
+    // Você pode manter seu construtor completo se precisar,
+    // apenas ajuste os tipos de 'double' para 'BigDecimal'
 }
