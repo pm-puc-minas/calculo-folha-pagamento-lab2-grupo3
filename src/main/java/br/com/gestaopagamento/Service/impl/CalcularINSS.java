@@ -25,7 +25,7 @@ public class CalcularINSS implements IDesconto {
      @Override
     public BigDecimal calcular(Funcionario funcionario){
         if(funcionario == null){
-            throw new IllegalArgumentException("O funcionário bruto não pode ser nulo");
+            throw new IllegalArgumentException("O funcionário não pode ser nulo");
         }
 
         BigDecimal salarioBruto = funcionario.getSalarioBruto();
