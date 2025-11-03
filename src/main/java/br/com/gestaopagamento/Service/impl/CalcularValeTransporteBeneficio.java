@@ -2,10 +2,10 @@ package br.com.gestaopagamento.Service.impl;
 
 import java.math.BigDecimal;
 import br.com.gestaopagamento.Models.Funcionario;
-import br.com.gestaopagamento.Service.Beneficio;
+import br.com.gestaopagamento.Service.IBeneficio;
 import lombok.Getter;
 
-public class CalcularValeTransporteBeneficio implements Beneficio {
+public class CalcularValeTransporteBeneficio implements IBeneficio {
 
     @Getter
     private BigDecimal valorVT;

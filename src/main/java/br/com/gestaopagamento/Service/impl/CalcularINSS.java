@@ -5,10 +5,10 @@ import java.math.BigDecimal;
 import org.springframework.stereotype.Service;
 
 import br.com.gestaopagamento.Models.Funcionario;
-import br.com.gestaopagamento.Service.Desconto;
+import br.com.gestaopagamento.Service.IDesconto;
 
 @Service
-public class CalcularINSS implements Desconto {
+public class CalcularINSS implements IDesconto {
     private static final BigDecimal aliquota1 = new BigDecimal("0.075");
     private static final BigDecimal aliquota2 = new BigDecimal("0.09");
     private static final BigDecimal aliquota3 = new BigDecimal("0.12");

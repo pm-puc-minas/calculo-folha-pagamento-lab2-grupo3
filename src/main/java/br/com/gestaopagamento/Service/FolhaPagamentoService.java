@@ -23,21 +23,21 @@ public class FolhaPagamentoService {
 
     public FolhaPagamento calcularFolha(Funcionario funcionario, int mes, BigDecimal horasTrabalhadas) {
         // Adicionais
-        Adicional adicionalInsalubridade = new CalcularInsalubridade();
-        Adicional adicionalPericulosidade = new CalcularPericulosidade();
+        IAdicional adicionalInsalubridade = new CalcularInsalubridade();
+        IAdicional adicionalPericulosidade = new CalcularPericulosidade();
         BigDecimal valorInsalubridade = adicionalInsalubridade.calcular(funcionario);
         BigDecimal valorPericulosidade = adicionalPericulosidade.calcular(funcionario);
 
         // Benefícios
-        Beneficio valeAlimentacao = new CalcularValeAlimentacao(new BigDecimal("30.00"), horasTrabalhadas.intValue());
-        Beneficio valeTransporte = new CalcularValeTransporteBeneficio(new BigDecimal("200.00"));
+        IBeneficio valeAlimentacao = new CalcularValeAlimentacao(new BigDecimal("30.00"), horasTrabalhadas.intValue());
+        IBeneficio valeTransporte = new CalcularValeTransporteBeneficio(new BigDecimal("200.00"));
         BigDecimal valorValeAlimentacao = valeAlimentacao.calcular(funcionario);
         BigDecimal valorValeTransporte = valeTransporte.calcular(funcionario);
 
         // Descontos
-        Desconto descontoINSS = new CalcularINSS();
-        Desconto descontoIRRF = new CalcularIRRF();
-        Desconto descontoValeTransporte = new CalcularValeTransporteDesconto(valorValeTransporte);
+        IDesconto descontoINSS = new CalcularINSS();
+        IDesconto descontoIRRF = new CalcularIRRF();
+        IDesconto descontoValeTransporte = new CalcularValeTransporteDesconto(valorValeTransporte);
         BigDecimal valorINSS = descontoINSS.calcular(funcionario);
         BigDecimal valorIRRF = descontoIRRF.calcular(funcionario);
         BigDecimal valorDescontoVT = descontoValeTransporte.calcular(funcionario);

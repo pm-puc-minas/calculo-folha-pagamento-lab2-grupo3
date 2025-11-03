@@ -4,9 +4,9 @@ import java.math.BigDecimal;
 import java.util.Optional; // <-- IMPORTANTE ADICIONAR
 
 import br.com.gestaopagamento.Models.Funcionario;
-import br.com.gestaopagamento.Service.Desconto;
+import br.com.gestaopagamento.Service.IDesconto;
 
-public class CalcularIRRF implements Desconto {
+public class CalcularIRRF implements IDesconto {
     private static final BigDecimal DeducaoPorDependete = new BigDecimal("189.59");
 
     // ... (Suas constantes de teto e alíquota estão perfeitas) ...
@@ -27,7 +27,7 @@ public class CalcularIRRF implements Desconto {
     @Override
     public BigDecimal calcular(Funcionario funcionario){
         //Calcula o salário base
-        Desconto calculaInss = new CalcularINSS();
+        IDesconto calculaInss = new CalcularINSS();
         BigDecimal valorInss = calculaInss.calcular(funcionario);
 
         BigDecimal salarioBase = funcionario.getSalarioBruto().subtract(valorInss);
