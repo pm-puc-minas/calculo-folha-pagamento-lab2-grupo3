@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import br.com.gestaopagamento.Models.Funcionario;
 import br.com.gestaopagamento.Service.IDesconto;
 
-@Service
+@Service("calcularINSS")
 public class CalcularINSS implements IDesconto {
     private static final BigDecimal aliquota1 = new BigDecimal("0.075");
     private static final BigDecimal aliquota2 = new BigDecimal("0.09");
