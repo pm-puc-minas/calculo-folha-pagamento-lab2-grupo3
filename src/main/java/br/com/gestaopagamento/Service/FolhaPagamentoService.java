@@ -2,10 +2,7 @@ package br.com.gestaopagamento.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -13,13 +10,10 @@ import org.springframework.stereotype.Service;
 import br.com.gestaopagamento.Models.FolhaPagamento;
 import br.com.gestaopagamento.Models.Funcionario;
 import br.com.gestaopagamento.Repository.IFolhaPagamentoRepository;
-import br.com.gestaopagamento.Service.impl.CalcularINSS; // <-- IMPORTANTE ADICIONAR
-import br.com.gestaopagamento.Service.impl.CalcularIRRF;
-import br.com.gestaopagamento.Service.impl.CalcularInsalubridade;
-import br.com.gestaopagamento.Service.impl.CalcularPericulosidade;
+
 import br.com.gestaopagamento.Service.impl.CalcularValeAlimentacao;
 import br.com.gestaopagamento.Service.impl.CalcularValeTransporteBeneficio;
-import br.com.gestaopagamento.Service.impl.CalcularValeTransporteDesconto;
+
 
 @Service
 public class FolhaPagamentoService {

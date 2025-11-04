@@ -1,14 +1,11 @@
 package br.com.gestaopagamento.Controller;
 
-import br.com.gestaopagamento.Models.Funcionario;
 import br.com.gestaopagamento.Models.CalculoFolhaRequest;
 import br.com.gestaopagamento.Models.FolhaPagamento;
 import br.com.gestaopagamento.Service.FolhaPagamentoService;
-import lombok.Getter;
-import lombok.Setter;
+
 
 import org.springframework.web.bind.annotation.*;
-import java.math.BigDecimal;
 
 @RestController
 @RequestMapping("/folha")
@@ -22,7 +19,8 @@ public class FolhaPagamentoController {
 
     @PostMapping("/calcular")
     public FolhaPagamento calcularFolha(@RequestBody CalculoFolhaRequest request) {
-        // Agora você passa os dados brutos para o service
+        
+
         return folhaPagamentoService.calcularFolha(
             request.getCpfFuncionario(), 
             request.getMes(), 
