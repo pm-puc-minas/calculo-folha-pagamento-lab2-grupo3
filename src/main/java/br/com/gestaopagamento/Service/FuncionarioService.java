@@ -1,41 +1,48 @@
 package br.com.gestaopagamento.Service;
 import br.com.gestaopagamento.Models.Funcionario;
-
-import java.util.ArrayList;
-import java.util.HashMap;
+import br.com.gestaopagamento.Repository.IFuncionarioRepository;
+import java.util.Optional;
 import java.util.List;
-import java.util.Map;
+
 
 import org.springframework.stereotype.Service;
 
 @Service
 public class FuncionarioService {
 
-    private final Map<String, Funcionario> funcionarioDB = new HashMap<>();
+    private final IFuncionarioRepository funcionarioRepository;
+
+    public FuncionarioService(IFuncionarioRepository funcionarioRepository) {
+        this.funcionarioRepository = funcionarioRepository;
+    }
 
     public Funcionario criar(Funcionario funcionario) {
-        if (funcionarioDB.containsKey(funcionario.getCpf())) {
+        if (funcionarioRepository.findByCpf(funcionario.getCpf()).isPresent()) {
             throw new IllegalArgumentException("CPF já cadastrado");
         }
-        funcionarioDB.put(funcionario.getCpf(), funcionario);
-        System.out.println("Funcionário criado com o CPF: " + funcionario.getCpf());
-        return funcionario;
+        return funcionarioRepository.save(funcionario);
     }
 
     public Funcionario buscarPorCpf(String cpf) {
-        return funcionarioDB.get(cpf);
+        return funcionarioRepository.findByCpf(cpf).orElse(null);
     }
 
     public List<Funcionario> listarTodos(){
-        return new ArrayList<>(funcionarioDB.values());
+        return funcionarioRepository.findAll();
     }
     
     public Funcionario atualizar(Funcionario funcionarioAtualizado) {
         String cpf = funcionarioAtualizado.getCpf();
-        if (!funcionarioDB.containsKey(cpf)) {
+
+        Optional<Funcionario> optionalFuncionario = funcionarioRepository.findByCpf(cpf);
+        
+        if (optionalFuncionario.isEmpty()) {
             throw new IllegalArgumentException("Funcionário com CPF " + cpf + " não encontrado");
         }
-        funcionarioDB.put(cpf, funcionarioAtualizado);
-        return funcionarioAtualizado;
+
+        Long idDoFuncionarioExistente = optionalFuncionario.get().getId();
+        funcionarioAtualizado.setId(idDoFuncionarioExistente);
+        
+        return funcionarioRepository.save(funcionarioAtualizado);
     }
 }
