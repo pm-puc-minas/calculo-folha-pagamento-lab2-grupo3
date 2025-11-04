@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -53,6 +56,10 @@ public class Funcionario {
             fetch = FetchType.LAZY
     )
     private List<Dependente> dependentes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "funcionario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<FolhaPagamento> folhasPagamento = new ArrayList<>();
 
     // Construtor vazio é obrigatório para o JPA
     public Funcionario() {
