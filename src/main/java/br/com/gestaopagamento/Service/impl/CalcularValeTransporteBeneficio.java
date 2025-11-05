@@ -4,7 +4,9 @@ import java.math.BigDecimal;
 import br.com.gestaopagamento.Models.Funcionario;
 import br.com.gestaopagamento.Service.Beneficio;
 import lombok.Getter;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CalcularValeTransporteBeneficio implements Beneficio {
 
     @Getter

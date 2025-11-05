@@ -3,8 +3,9 @@ package br.com.gestaopagamento.Service.impl;
 import java.math.BigDecimal;
 import br.com.gestaopagamento.Models.Funcionario;
 import br.com.gestaopagamento.Service.Desconto;
-import lombok.Getter;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CalcularValeTransporteDesconto implements Desconto {
     private final BigDecimal PORCENTAGEM_MAX = new BigDecimal("0.06");
 
