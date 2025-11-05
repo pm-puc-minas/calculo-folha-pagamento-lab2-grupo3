@@ -6,10 +6,8 @@ import java.math.BigDecimal;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.math.BigDecimal;
 import br.com.gestaopagamento.Models.GrauInsalubridade;
 import br.com.gestaopagamento.Models.Funcionario;
-import br.com.gestaopagamento.Models.GrauInsalubridade; // <-- IMPORTAR O ENUM
 import br.com.gestaopagamento.Service.impl.CalcularPericulosidade;
 
 public class CalcularPericulosidadeTest {

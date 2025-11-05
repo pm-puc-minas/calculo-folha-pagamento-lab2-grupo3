@@ -6,10 +6,8 @@ import java.math.BigDecimal;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.math.BigDecimal;
 import br.com.gestaopagamento.Models.GrauInsalubridade;
-import br.com.gestaopagamento.Models.Funcionario;
-import br.com.gestaopagamento.Models.GrauInsalubridade; // <-- IMPORTAR O ENUM
+import br.com.gestaopagamento.Models.Funcionario;// <-- IMPORTAR O ENUM
 import br.com.gestaopagamento.Service.impl.CalcularInsalubridade;
 
 public class CalcularInsalubridadeTest {
@@ -23,20 +21,16 @@ public class CalcularInsalubridadeTest {
 
     @Test
     public void deveCalcularValorBaixo() {
-        // --- CORREÇÃO AQUI ---
-        // Trocamos o construtor antigo por setters
         Funcionario funcionarioBaixa = new Funcionario();
         funcionarioBaixa.setNome("Diogo");
         funcionarioBaixa.setCpf("12345678900");
         funcionarioBaixa.setCargo("Dev");
         funcionarioBaixa.setSalarioBruto(new BigDecimal("1518.00"));
         funcionarioBaixa.setPericulosidade(false);
-        funcionarioBaixa.setGrauInsalubridade(GrauInsalubridade.fromInt(1)); // Usa o Enum
-        // 'dependentes' já começa como lista vazia (size 0)
-        funcionarioBaixa.setPensaoAlimenticia(new BigDecimal("0.0")); // Usa BigDecimal
-        funcionarioBaixa.setOutrasDeducoes(new BigDecimal("0.0")); // Usa BigDecimal
-        // --- FIM DA CORREÇÃO ---
-
+        funcionarioBaixa.setGrauInsalubridade(GrauInsalubridade.fromInt(1));
+        funcionarioBaixa.setPensaoAlimenticia(new BigDecimal("0.0"));
+        funcionarioBaixa.setOutrasDeducoes(new BigDecimal("0.0"));
+    
         BigDecimal valoresperado = new BigDecimal("138.06");
         BigDecimal valorCalculado = calculadora.calcular(funcionarioBaixa);
         assertEquals(valoresperado, valorCalculado,"o  valor deveria ser 151.80");
