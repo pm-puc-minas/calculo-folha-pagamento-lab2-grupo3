@@ -2,12 +2,13 @@ package br.com.gestaopagamento.Service.impl;
 
 import java.math.BigDecimal;
 
-import br.com.gestaopagamento.Models.Funcionario;
-import br.com.gestaopagamento.Service.Desconto;
 import org.springframework.stereotype.Service;
 
-@Service
-public class CalcularINSS implements Desconto {
+import br.com.gestaopagamento.Models.Funcionario;
+import br.com.gestaopagamento.Service.IDesconto;
+
+@Service("calcularINSS")
+public class CalcularINSS implements IDesconto {
     private static final BigDecimal aliquota1 = new BigDecimal("0.075");
     private static final BigDecimal aliquota2 = new BigDecimal("0.09");
     private static final BigDecimal aliquota3 = new BigDecimal("0.12");
@@ -24,7 +25,7 @@ public class CalcularINSS implements Desconto {
      @Override
     public BigDecimal calcular(Funcionario funcionario){
         if(funcionario == null){
-            throw new IllegalArgumentException("O funcionário bruto não pode ser nulo");
+            throw new IllegalArgumentException("O funcionário não pode ser nulo");
         }
 
         BigDecimal salarioBruto = funcionario.getSalarioBruto();

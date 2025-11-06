@@ -50,3 +50,135 @@ O sistema deve permitir:
 - Spring Boot
 - Banco de dados relacional (MySQL, PostgreSQL, etc.)
 - JUnit para testes
+
+# 🧾 Sistema de Gerenciamento de RH
+
+## 📘 Descrição Geral
+Este sistema foi desenvolvido para **gerenciar funcionários do setor de RH**, permitindo o **cadastro e autenticação de gerentes responsáveis**, além do **registro de funcionários** e do **cálculo automatizado de salários** com base em encargos e adicionais (como **insalubridade, FGTS, IRRF e periculosidade**).
+
+---
+
+## 👥 Funcionalidades Principais
+
+### 🔐 Login e Cadastro de Gerentes
+O sistema possui uma **página de login** para os funcionários responsáveis pelo gerenciamento do RH.  
+Caso o usuário ainda não tenha conta, ele pode **criar um login**, informando:
+- Nome completo  
+- Telefone  
+- CPF  
+- E-mail  
+- Senha  
+- Código de acesso numérico gerado automaticamente  
+
+Após o login, o gerente tem acesso à área de gerenciamento do sistema.
+
+---
+
+### 👨‍🍳 Cadastro de Funcionários
+Após o login, o gerente pode cadastrar novos funcionários, informando:
+- Nome completo  
+- Cargo (Cozinheiro, Garçom ou Limpeza)  
+- Telefone  
+- Salário base  
+- CPF  
+- Tipo de adicional (Insalubridade, Periculosidade etc.)
+
+O sistema realiza **cálculos automáticos no salário final**, considerando:
+- **IRRF (Imposto de Renda Retido na Fonte)**  
+- **FGTS (Fundo de Garantia do Tempo de Serviço)**  
+- **Adicional de Insalubridade e Periculosidade**  
+
+---
+
+## 🧬 Uso da Herança
+A **herança** foi utilizada para **organizar as classes responsáveis pelo cálculo de salário** e **reaproveitar código comum** entre elas.
+
+### Exemplo:
+```java
+// Classe base
+class Salario {
+    protected double salarioBase;
+
+    public Salario(double salarioBase) {
+        this.salarioBase = salarioBase;
+    }
+
+    public double calcularSalarioFinal() {
+        return salarioBase;
+    }
+}
+
+// Classe filha herda métodos e atributos da classe pai
+class SalarioComInsalubridade extends Salario {
+    public SalarioComInsalubridade(double salarioBase) {
+        super(salarioBase);
+    }
+
+    @Override
+    public double calcularSalarioFinal() {
+        return salarioBase + (salarioBase * 0.10); // 10% de adicional
+    }
+}
+````
+## Polimorfismo no Sistema 
+O polimorfismo foi utilizado no sistema de RH para permitir que diferentes tipos de funcionários ou cálculos de salário utilizem o mesmo método, mas com comportamentos distintos.
+
+No contexto do sistema, cada funcionário pode ter um tipo diferente de adicional (como insalubridade, periculosidade, FGTS ou IRRF).
+Mesmo assim, todos possuem o mesmo método para calcular o salário final, chamado calcularSalarioFinal().
+### Exemplo:
+```java
+Salario salario1 = new SalarioComInsalubridade(2000);
+Salario salario2 = new SalarioComPericulosidade(2000);
+Salario salario3 = new SalarioComIRRF(2000);
+
+System.out.println(salario1.calcularSalarioFinal()); // calcula com insalubridade
+System.out.println(salario2.calcularSalarioFinal()); // calcula com periculosidade
+System.out.println(salario3.calcularSalarioFinal()); // calcula com IRRF
+````
+## Uso de interface 
+A interface foi usada para criar um contrato de comportamento que todas as classes responsáveis pelos cálculos de encargos devem seguir.
+
+Com isso, garantimos que todas as classes de cálculo (como IRRF, FGTS, Insalubridade, Periculosidade) tenham o mesmo método, chamado calcular().
+Essa padronização facilita a manutenção do sistema e permite que novas regras de cálculo sejam adicionadas facilmente.
+
+### Exemplo
+```java
+interface Calculavel {
+    double calcular();
+}
+
+class FGTS implements Calculavel {
+    private double salarioBase;
+
+    public FGTS(double salarioBase) {
+        this.salarioBase = salarioBase;
+    }
+
+    @Override
+    public double calcular() {
+        return salarioBase * 0.08; // 8% de FGTS
+    }
+}
+
+class IRRF implements Calculavel {
+    private double salarioBase;
+
+    public IRRF(double salarioBase) {
+        this.salarioBase = salarioBase;
+    }
+
+    @Override
+    public double calcular() {
+        return salarioBase * 0.075; // 7,5% de IRRF
+    }
+}
+```
+Dessa forma, o sistema pode usar qualquer cálculo sem se preocupar com o tipo específico da classe:
+```java
+Calculavel c1 = new FGTS(2000);
+Calculavel c2 = new IRRF(2000);
+
+System.out.println(c1.calcular());
+System.out.println(c2.calcular());
+````
+
