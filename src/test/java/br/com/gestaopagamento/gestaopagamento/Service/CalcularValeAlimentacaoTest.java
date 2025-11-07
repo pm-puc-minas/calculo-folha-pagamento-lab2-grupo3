@@ -1,15 +1,14 @@
 package br.com.gestaopagamento.gestaopagamento.Service;
 
 import br.com.gestaopagamento.Models.Funcionario;
-import br.com.gestaopagamento.Models.GrauInsalubridade; // <-- IMPORTAR O ENUM
+import br.com.gestaopagamento.Models.enums.GrauInsalubridade; // <-- IMPORTAR O ENUM
 import br.com.gestaopagamento.Service.impl.CalcularValeAlimentacao;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.math.BigDecimal;
-import java.math.BigDecimal;
-import br.com.gestaopagamento.Models.GrauInsalubridade;
+
 @SpringBootTest
 public class CalcularValeAlimentacaoTest {
 

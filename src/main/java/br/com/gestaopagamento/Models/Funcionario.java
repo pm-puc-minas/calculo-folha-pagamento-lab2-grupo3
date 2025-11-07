@@ -1,5 +1,6 @@
 package br.com.gestaopagamento.Models;
 
+import br.com.gestaopagamento.Models.enums.GrauInsalubridade;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
