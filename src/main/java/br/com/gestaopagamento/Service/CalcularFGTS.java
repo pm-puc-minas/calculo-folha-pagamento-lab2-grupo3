@@ -10,8 +10,11 @@ import org.springframework.stereotype.Service;
 public class CalcularFGTS implements IDesconto{
     @Override
     public BigDecimal calcular(Funcionario funcionario) {
+        if(funcionario == null){
+            throw new IllegalArgumentException("O funcionário não pode ser nulo!");
+        }
         BigDecimal salarioBruto = funcionario.getSalarioBruto();
-        BigDecimal desconto;
+        BigDecimal desconto = BigDecimal.ZERO;
         desconto = salarioBruto.multiply(FGTSEnum.ALIQUOTA.getAliquota());
         return desconto;
     }
