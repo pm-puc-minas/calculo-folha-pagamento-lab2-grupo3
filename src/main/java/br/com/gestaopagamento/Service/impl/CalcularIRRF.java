@@ -3,9 +3,14 @@ package br.com.gestaopagamento.Service.impl;
 import java.math.BigDecimal;
 import java.util.Optional;
 
+import br.com.gestaopagamento.Models.enums.IRRF;
+
+import org.springframework.stereotype.Service;
+
 import br.com.gestaopagamento.Models.Funcionario;
 import br.com.gestaopagamento.Service.IDesconto;
 
+@Service("calcularIRRF")
 public class CalcularIRRF implements IDesconto {
     private final IDesconto calculaInss; 
 
@@ -26,29 +31,29 @@ public class CalcularIRRF implements IDesconto {
         BigDecimal outrasDeducoes = Optional.ofNullable(funcionario.getOutrasDeducoes()).orElse(BigDecimal.ZERO);
 
 
-        BigDecimal baseDeCalculo = salarioBase.subtract(qntdDependentes.multiply(DeducaoPorDependete));
+        BigDecimal baseDeCalculo = salarioBase.subtract(qntdDependentes.multiply(IRRF.deducaoPorDependete.getValor()));
         baseDeCalculo = baseDeCalculo.subtract(pensaoAlimenticia).subtract(outrasDeducoes);
 
          BigDecimal aliquotaEfetiva;
 
-        if(baseDeCalculo.compareTo(teto1) <= 0){
+        if(baseDeCalculo.compareTo(IRRF.teto1.getValor()) <= 0){
             aliquotaEfetiva = BigDecimal.ZERO;
         }
 
-        else if(baseDeCalculo.compareTo(teto2) <= 0 && baseDeCalculo.compareTo(teto1) > 0){
-            aliquotaEfetiva = baseDeCalculo.multiply(aliquota2).subtract(deducaoIrpf2);
+        else if(baseDeCalculo.compareTo(IRRF.teto2.getValor()) <= 0 && baseDeCalculo.compareTo(IRRF.teto1.getValor()) > 0){
+            aliquotaEfetiva = baseDeCalculo.multiply(IRRF.aliquota2.getValor()).subtract(IRRF.deducaoIrpf2.getValor());
         }
 
-        else if(baseDeCalculo.compareTo(teto3) <= 0 && baseDeCalculo.compareTo(teto2) > 0){
-            aliquotaEfetiva = baseDeCalculo.multiply(aliquota3).subtract(deducaoIrpf3);
+        else if(baseDeCalculo.compareTo(IRRF.teto3.getValor()) <= 0 && baseDeCalculo.compareTo(IRRF.teto2.getValor()) > 0){
+            aliquotaEfetiva = baseDeCalculo.multiply(IRRF.aliquota3.getValor()).subtract(IRRF.deducaoIrpf3.getValor());
         }
         
-        else if(baseDeCalculo.compareTo(teto4) <= 0 && baseDeCalculo.compareTo(teto3) > 0){
-            aliquotaEfetiva = baseDeCalculo.multiply(aliquota4).subtract(deducaoIrpf4);
+        else if(baseDeCalculo.compareTo(IRRF.teto4.getValor()) <= 0 && baseDeCalculo.compareTo(IRRF.teto3.getValor()) > 0){
+            aliquotaEfetiva = baseDeCalculo.multiply(IRRF.aliquota4.getValor()).subtract(IRRF.deducaoIrpf4.getValor());
         }
 
         else{
-            aliquotaEfetiva = baseDeCalculo.multiply(aliquota5).subtract(deducaoIrpf5);
+            aliquotaEfetiva = baseDeCalculo.multiply(IRRF.aliquota5.getValor()).subtract(IRRF.deducaoIrpf5.getValor());
         }
 
         if (aliquotaEfetiva.compareTo(BigDecimal.ZERO) < 0) {

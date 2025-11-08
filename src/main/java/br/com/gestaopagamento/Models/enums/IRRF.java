@@ -3,7 +3,7 @@ package br.com.gestaopagamento.Models.enums;
 import java.math.BigDecimal;
 
 public enum IRRF {
-    ducaoPorDependete(new BigDecimal("189.59")),
+    deducaoPorDependete(new BigDecimal("189.59")),
 
     aliquota2(new BigDecimal("0.075")),
     aliquota3(new BigDecimal("0.15")),
