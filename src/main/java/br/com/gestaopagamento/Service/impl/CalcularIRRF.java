@@ -20,10 +20,29 @@ public class CalcularIRRF implements IDesconto {
 
     @Override
     public BigDecimal calcular(Funcionario funcionario){
-        BigDecimal valorInss = this.calculaInss.calcular(funcionario);
+        if(funcionario == null){
+            throw new IllegalArgumentException("O funcionário não pode ser nulo");
+        }
+        if(funcionario.getSalarioBruto() == null){
+            throw new IllegalArgumentException("O salário bruto não pode ser nulo");
+        }
+        if(funcionario.getDependentes() == null){
+            throw new IllegalArgumentException("A quantidade de dependentes não pode ser nula");
+        }
 
+        BigDecimal valorInss;
+        try{
+            valorInss = this.calculaInss.calcular(funcionario);
+        }catch (Exception e) {
+             throw new RuntimeException("Falha ao calcular IRRF: O cálculo de INSS falhou.", e);
+        }
+
+        if(valorInss == null) {
+            throw new IllegalStateException("O cálculo dependente do INSS retornou nulo");
+        }
+
+        
         BigDecimal salarioBase = funcionario.getSalarioBruto().subtract(valorInss);
-
 
         BigDecimal qntdDependentes = new BigDecimal(funcionario.getDependentes().size());
 
