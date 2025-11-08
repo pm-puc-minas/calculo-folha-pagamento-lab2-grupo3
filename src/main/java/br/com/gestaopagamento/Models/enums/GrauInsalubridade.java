@@ -1,4 +1,4 @@
-package br.com.gestaopagamento.Models;
+package br.com.gestaopagamento.Models.enums;
 
 public enum GrauInsalubridade {
     // Adicione o NENHUM(0) para casos onde não se aplica

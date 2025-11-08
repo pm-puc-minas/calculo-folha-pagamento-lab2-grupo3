@@ -11,7 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import br.com.gestaopagamento.Models.Funcionario;
-import br.com.gestaopagamento.Models.GrauInsalubridade;
+import br.com.gestaopagamento.Models.enums.GrauInsalubridade;
 import br.com.gestaopagamento.Service.impl.CalcularINSS; 
 import br.com.gestaopagamento.Service.impl.CalcularIRRF;
 

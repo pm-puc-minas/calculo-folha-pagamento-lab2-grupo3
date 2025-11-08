@@ -2,6 +2,7 @@ package br.com.gestaopagamento.Service.impl;
 
 import java.math.BigDecimal;
 
+import br.com.gestaopagamento.Models.enums.INSS;
 import org.springframework.stereotype.Service;
 
 import br.com.gestaopagamento.Models.Funcionario;
@@ -9,18 +10,6 @@ import br.com.gestaopagamento.Service.IDesconto;
 
 @Service("calcularINSS")
 public class CalcularINSS implements IDesconto {
-    private static final BigDecimal aliquota1 = new BigDecimal("0.075");
-    private static final BigDecimal aliquota2 = new BigDecimal("0.09");
-    private static final BigDecimal aliquota3 = new BigDecimal("0.12");
-    private static final BigDecimal aliquota4 = new BigDecimal("0.14");
-
-    private static final BigDecimal teto1 = new BigDecimal("1302.0");
-    private static final BigDecimal teto2 = new BigDecimal("2571.29");
-    private static final BigDecimal teto3 = new BigDecimal("3856.94");
-    private static final BigDecimal teto4 = new BigDecimal("7507.49");
-
-    private static final BigDecimal faixa2 = teto2.subtract(teto1);
-    private static final BigDecimal faixa3 = teto3.subtract(teto2);
 
      @Override
     public BigDecimal calcular(Funcionario funcionario){
@@ -35,30 +24,34 @@ public class CalcularINSS implements IDesconto {
 
     //Lógica de desconto
         BigDecimal desconto;
+        BigDecimal multiply = INSS.TETO1.getValor().multiply(INSS.ALIQUOTA1.getValor());
 
-        if(salarioBruto.compareTo(teto1) <= 0){
-            desconto = salarioBruto.multiply(aliquota1); 
+        if(salarioBruto.compareTo(INSS.TETO1.getValor()) <= 0){
+            desconto = salarioBruto.multiply(INSS.ALIQUOTA1.getValor());
         }
    
-        else if(salarioBruto.compareTo(teto2) <= 0){
-            desconto = teto1.multiply(aliquota1).add(salarioBruto.subtract(teto1).multiply(aliquota2));
-        }
+        else {
 
-        else if(salarioBruto.compareTo(teto3) <= 0){
-            desconto = teto1.multiply(aliquota1).add(faixa2.multiply(aliquota2));
-            desconto = desconto.add(salarioBruto.subtract(teto2).multiply(aliquota3));
-        }
+            if(salarioBruto.compareTo(INSS.TETO2.getValor()) <= 0){
+                desconto = multiply.add(salarioBruto.subtract(INSS.TETO1.getValor()).multiply(INSS.ALIQUOTA2.getValor()));
+            }
 
-        else if(salarioBruto.compareTo(teto4) <= 0){
-            desconto = teto1.multiply(aliquota1).add(faixa2.multiply(aliquota2));
-            desconto = desconto.add(faixa3.multiply(aliquota3));
-            desconto = desconto.add(salarioBruto.subtract(teto3).multiply(aliquota4));
-        }
+            else if(salarioBruto.compareTo(INSS.TETO3.getValor()) <= 0){
+                desconto = multiply.add(INSS.FAIXA2.getValor().multiply(INSS.ALIQUOTA2.getValor()));
+                desconto = desconto.add(salarioBruto.subtract(INSS.TETO2.getValor()).multiply(INSS.ALIQUOTA3.getValor()));
+            }
 
-        else{
-            desconto = teto1.multiply(aliquota1).add(faixa2.multiply(aliquota2));
-            desconto = desconto.add(faixa3.multiply(aliquota3));
-            desconto = desconto.add(teto4.subtract(teto3).multiply(aliquota4));
+            else if(salarioBruto.compareTo(INSS.TETO4.getValor()) <= 0){
+                desconto = multiply.add(INSS.FAIXA2.getValor().multiply(INSS.ALIQUOTA2.getValor()));
+                desconto = desconto.add(INSS.FAIXA3.getValor().multiply(INSS.ALIQUOTA3.getValor()));
+                desconto = desconto.add(salarioBruto.subtract(INSS.TETO3.getValor()).multiply(INSS.ALIQUOTA4.getValor()));
+            }
+
+            else{
+                desconto = multiply.add(INSS.FAIXA2.getValor().multiply(INSS.ALIQUOTA2.getValor()));
+                desconto = desconto.add(INSS.FAIXA3.getValor().multiply(INSS.ALIQUOTA3.getValor()));
+                desconto = desconto.add(INSS.TETO4.getValor().subtract(INSS.TETO3.getValor()).multiply(INSS.ALIQUOTA4.getValor()));
+            }
         }
 
         return desconto;
