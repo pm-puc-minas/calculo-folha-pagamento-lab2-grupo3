@@ -1,7 +1,6 @@
-package br.com.gestaopagamento.Dto;
+package br.com.gestaopagamento.Models;
 
 import java.math.BigDecimal;
-import br.com.gestaopagamento.Models.Funcionario;
 
 public class FolhaPagamentoRequest {
     private Funcionario funcionario;
