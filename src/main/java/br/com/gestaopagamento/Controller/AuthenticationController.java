@@ -2,8 +2,10 @@ package br.com.gestaopagamento.Controller;
 
 import br.com.gestaopagamento.Models.AuthenticationDTO;
 import br.com.gestaopagamento.Models.CadastroDTO;
+import br.com.gestaopagamento.Models.LoginResponseDTO;
 import br.com.gestaopagamento.Models.User;
 import br.com.gestaopagamento.Repository.UserRepository;
+import br.com.gestaopagamento.infra.security.TokenService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,13 +25,16 @@ public class AuthenticationController {
     private AuthenticationManager authenticationManager;
     @Autowired
     private UserRepository repository;
+    @Autowired
+    private TokenService tokenService;
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data){
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
         var auth = authenticationManager.authenticate(usernamePassword);
+        var token = tokenService.generateToken((User) auth.getPrincipal());
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new LoginResponseDTO(token));
     }
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody @Valid CadastroDTO data){
