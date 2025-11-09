@@ -13,12 +13,12 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Entity // <-- ANOTAÇÃO ATIVADA
-@Table(name = "funcionario") // Define o nome da tabela
+@Entity
+@Table(name = "funcionario")
 public class Funcionario {
 
-    @Id // <-- Chave Primária
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // <-- ID Auto-incrementado
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "nome", nullable = false)
@@ -33,7 +33,7 @@ public class Funcionario {
     @Column(name = "salario_bruto", nullable = false, precision = 10, scale = 2)
     private BigDecimal salarioBruto;
 
-    // Diz ao JPA para salvar o nome do Enum (ex: "BAIXO", "MEDIO")
+
     @Enumerated(EnumType.STRING)
     @Column(name = "grau_insalubridade")
     private GrauInsalubridade grauInsalubridade;
@@ -41,15 +41,12 @@ public class Funcionario {
     @Column(name = "periculosidade")
     private boolean periculosidade;
 
-    // MUDANÇA: 'double' para 'BigDecimal'
     @Column(name = "pensao_alimenticia", precision = 10, scale = 2)
     private BigDecimal pensaoAlimenticia;
 
-    // MUDANÇA: 'double' para 'BigDecimal'
     @Column(name = "outras_deducoes", precision = 10, scale = 2)
     private BigDecimal outrasDeducoes;
 
-    // MUDANÇA: Trocamos 'qntdDependentes' pela lista real
     @OneToMany(
             mappedBy = "funcionario",
             cascade = CascadeType.ALL,
@@ -62,10 +59,6 @@ public class Funcionario {
     @JsonIgnore
     private List<FolhaPagamento> folhasPagamento = new ArrayList<>();
 
-    // Construtor vazio é obrigatório para o JPA
     public Funcionario() {
     }
-
-    // Você pode manter seu construtor completo se precisar,
-    // apenas ajuste os tipos de 'double' para 'BigDecimal'
 }
