@@ -3,6 +3,7 @@ package br.com.gestaopagamento.infra.security;
 import br.com.gestaopagamento.Repository.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,14 @@ public class SecurityFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
     private String recoverToken(HttpServletRequest request){
+        if(request.getCookies() != null){
+            for(Cookie cookie : request.getCookies()){
+                if(cookie.getName().equals("token")){
+                    return cookie.getValue();
+                }
+            }
+        }
+
         var authHeader = request.getHeader("Authorization");
         if(authHeader == null) return null;
         return authHeader.replace("Bearer ", "");

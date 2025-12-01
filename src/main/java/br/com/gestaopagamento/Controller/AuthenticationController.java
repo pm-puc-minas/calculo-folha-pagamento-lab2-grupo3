@@ -2,22 +2,23 @@ package br.com.gestaopagamento.Controller;
 
 import br.com.gestaopagamento.Models.AuthenticationDTO;
 import br.com.gestaopagamento.Models.CadastroDTO;
-import br.com.gestaopagamento.Models.LoginResponseDTO;
 import br.com.gestaopagamento.Models.User;
 import br.com.gestaopagamento.Repository.UserRepository;
 import br.com.gestaopagamento.infra.security.TokenService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-@RestController
+@Controller
 @RequestMapping("auth")
 public class AuthenticationController {
 
@@ -28,25 +29,43 @@ public class AuthenticationController {
     @Autowired
     private TokenService tokenService;
 
+    @GetMapping("/login")
+    public String loginForm() {
+        return "Login";
+    }
+
+    @GetMapping("/register")
+    public String registerForm() {
+        return "Cadastro";
+    }
+
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data){
-        var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
+    public String login(@Valid AuthenticationDTO data, HttpServletResponse response) {
+        var usernamePassword = new UsernamePasswordAuthenticationToken(data.getLogin(), data.getPassword());
         var auth = authenticationManager.authenticate(usernamePassword);
         var token = tokenService.generateToken((User) auth.getPrincipal());
 
-        return ResponseEntity.ok(new LoginResponseDTO(token));
+        Cookie cookie = new Cookie("token", token);
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(24 * 60 * 60);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+
+        return "redirect:/home";
     }
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody @Valid CadastroDTO data){
-        if(repository.findByLogin(data.login())!=null){
-            return ResponseEntity.badRequest().build();
+    public String register(@Valid CadastroDTO data, RedirectAttributes redirectAttributes){
+        if(repository.findByLogin(data.getLogin())!=null){
+            redirectAttributes.addFlashAttribute("errorMessage","Erro: Usuário já existe!");
+            return "redirect:/auth/register";
         }
 
-        String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
-        User newUser = new User(data.login(), encryptedPassword, data.role());
+        String encryptedPassword = new BCryptPasswordEncoder().encode(data.getPassword());
+        User newUser = new User(data.getLogin(), encryptedPassword, data.getRole());
         this.repository.save(newUser);
 
-        return ResponseEntity.ok().build();
+        redirectAttributes.addFlashAttribute("successMessage", "Usuário cadastrado com sucesso!");
+        return "redirect:/auth/register";
     }
 
 }
