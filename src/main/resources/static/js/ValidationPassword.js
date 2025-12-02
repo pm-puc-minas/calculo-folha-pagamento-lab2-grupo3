@@ -1,6 +1,6 @@
 function validatePassword() {
-    var password = document.getElementById("inputPassword").value;
-    var confirmPassword = document.getElementById("inputConfirmPassword").value;
+    var password = document.getElementById("formGroupExampleInput2").value;
+    var confirmPassword = document.getElementById("formGroupExampleInput3").value;
     var errorDiv = document.getElementById("passwordMismatchError");
 
     if (password != confirmPassword) {
