@@ -6,7 +6,7 @@ import java.util.Optional;
 import br.com.gestaopagamento.Models.enums.IRRF;
 
 import org.springframework.stereotype.Service;
-
+import org.springframework.beans.factory.annotation.Qualifier;
 import br.com.gestaopagamento.Models.Funcionario;
 import br.com.gestaopagamento.Service.IDesconto;
 
@@ -14,8 +14,8 @@ import br.com.gestaopagamento.Service.IDesconto;
 public class CalcularIRRF implements IDesconto {
     private final IDesconto calculaInss; 
 
-    public CalcularIRRF(IDesconto calculaInss) {
-        this.calculaInss = calculaInss;
+    public CalcularIRRF(@Qualifier("calcularINSS") IDesconto descontoINSS) {
+        this.calculaInss = descontoINSS;
     }
 
     @Override
