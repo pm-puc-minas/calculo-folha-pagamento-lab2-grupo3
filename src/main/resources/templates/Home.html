@@ -1,5 +1,5 @@
-<!doctype html>
-<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<!doctype html> 
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -150,12 +150,12 @@
 
         <div class="row justify-content-center g-5">
 
-            <div class="col-md-5" th:if="${user != null and user.role.name() == 'ADMIN'}">
+            <div class="col-md-5" sec:authorize="hasRole('ADMIN')">
                 <div class="card-action">
                     <div class="card-icon"></div>
                     <h3 class="card-title">Novo Funcionário</h3>
                     <p class="card-desc">Cadastre novos colaboradores e gere acessos ao sistema.</p>
-                    <a th:href="@{/auth/register}" class="btn-action">Cadastrar</a>
+                    <a th:href="@{/funcionarios}" class="btn-action">Cadastrar</a>
                 </div>
             </div>
 
