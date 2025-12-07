@@ -41,5 +41,5 @@ public FuncionarioController(FuncionarioService funcionarioService) {
         Funcionario funcionario = funcionarioService.atualizar(funcionarioAtualizado);
         return ResponseEntity.ok(funcionario);
     }
-
+    
 }
