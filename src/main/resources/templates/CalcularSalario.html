@@ -126,7 +126,7 @@
 
     <nav class="navbar navbar-expand-lg navbar-custom">
         <div class="container">
-            <a class="navbar-brand" href="#">RH Belo Prato</a>
+            <a class="navbar-brand" th:href="@{/home}">RH Belo Prato</a>
             
             <button class="navbar-toggler bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -159,7 +159,7 @@
                     <div ><h3 class="card-title">Horas trabalhadas</h3></div>  
                     <p>Quantas horas você trabalhou esse mês?</p>
                     <input type="number" step="0.01" class="form-control form-control-pill" name="horasTrabalhadas" placeholder="Ex: 220" required>
-                    <a th:href="@{/funcionarios/novo}" class="btn-action">Calcular</a>
+                    <a th:href="" class="btn-action">Calcular</a>
                 </div>
             </div>
 

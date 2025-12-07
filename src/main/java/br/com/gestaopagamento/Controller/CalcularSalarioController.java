@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class CalcularSalarioController {
 
-    @GetMapping("/Calular") 
-    public String abrirPagina() {
+    @GetMapping("/Calcular") 
+    public String CalcularSalarioPagina() {
         return "CalcularSalario"; 
     }
 }
