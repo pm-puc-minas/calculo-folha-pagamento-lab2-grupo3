@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.gestaopagamento.Models.Funcionario;
 import br.com.gestaopagamento.Service.FuncionarioService;
@@ -14,21 +15,33 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/funcionarios")
 public class FuncionarioController {
 
-private final FuncionarioService funcionarioService;
+    private final FuncionarioService funcionarioService;
 
-public FuncionarioController(FuncionarioService funcionarioService) {
+    public FuncionarioController(FuncionarioService funcionarioService) {
         this.funcionarioService = funcionarioService;
-}
+    }
 
-    @GetMapping("/funcionario")
-    public String cadastroFuncionario() { return "CadastroFuncionario"; }
+    // Mantivemos a versão HEAD pois ela manda o objeto vazio necessário para o HTML
+    @GetMapping("/novo")
+    public String cadastroFuncionario(Model model) { 
+        model.addAttribute("funcionario", new Funcionario());
+        return "CadastroFuncionario"; 
+    }
 
+    // Mantivemos a versão HEAD pois já trata o salvamento corretamente
     @PostMapping
     public String criarFuncionario(Funcionario novoFuncionario, RedirectAttributes redirectAttributes) {
-        Funcionario funcionarioSalvo = funcionarioService.criar(novoFuncionario);
-        redirectAttributes.addFlashAttribute("mensagemSucesso", "Usuário criado com sucesso!");
-
-        return "redirect:/home";
+        try {
+            // O campo 'dependentes' já vem preenchido automaticamente pelo th:field
+            funcionarioService.criar(novoFuncionario);
+            
+            redirectAttributes.addFlashAttribute("mensagemSucesso", "Funcionário cadastrado com sucesso!");
+            return "redirect:/home";
+            
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("mensagemErro", "Erro: " + e.getMessage());
+            return "redirect:/funcionarios/novo";
+        }
     }
 
     @GetMapping("/listarTodos")
@@ -51,5 +64,4 @@ public FuncionarioController(FuncionarioService funcionarioService) {
         redirectAttrs.addFlashAttribute("mensagemSucesso", "Funcionário atualizado com sucesso!");
         return "redirect:/funcionarios/listarTodos";
     }
-    
 }
