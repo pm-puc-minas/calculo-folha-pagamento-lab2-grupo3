@@ -37,7 +37,8 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.GET, "/home").permitAll()
                         .requestMatchers(HttpMethod.GET, "/Calcular").permitAll()
                         .requestMatchers(HttpMethod.GET, "/editar-perfil").permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers(HttpMethod.GET, "/folha-de-pagamento").permitAll()
+                        .anyRequest().permitAll()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

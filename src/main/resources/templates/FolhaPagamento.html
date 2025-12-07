@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Demonstrativo de Pagamento (Estático)</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: sans-serif;
+            padding: 20px;
+        }
+
+        h1.page-title {
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: 900;
+            font-size: 3rem;
+            margin-bottom: 30px;
+            color: black;
+            text-align: center;
+        }
+
+        .card-custom {
+            background-color: #111;
+            width: 100%;
+            max-width: 900px;
+            padding: 40px;
+            border-radius: 40px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            color: white;
+        }
+
+        .info-label {
+            color: #aaa;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            margin-bottom: 2px;
+        }
+        .info-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 5px;
+        }
+
+        .table-custom {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: separate;
+            border-spacing: 0 10px; 
+        }
+
+        .table-custom th {
+            color: #888;
+            font-weight: normal;
+            text-align: left;
+            padding: 10px;
+            border-bottom: 1px solid #444;
+        }
+        
+        .table-custom td {
+            background-color: #1e1e1e;
+            padding: 15px;
+            vertical-align: middle;
+        }
+
+        .table-custom tr td:first-child { border-top-left-radius: 15px; border-bottom-left-radius: 15px; }
+        .table-custom tr td:last-child { border-top-right-radius: 15px; border-bottom-right-radius: 15px; }
+
+        .text-earning { color: #3ddc68; } 
+        .text-deduction { color: #ff9999; } 
+        .text-reference { color: #aaa; font-style: italic; }
+        .total-section {
+            background-color: white;
+            color: black;
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        .total-label { font-size: 1rem; font-weight: bold; }
+        .total-value { font-size: 1.5rem; font-weight: 900; text-align: right; }
+        .net-salary { color: #008000; }
+
+        .btn-action {
+            border-radius: 30px;
+            padding: 10px 30px;
+            font-weight: bold;
+            border: none;
+            transition: 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+        .btn-back { background-color: #333; color: white; }
+        .btn-back:hover { background-color: #555; color: white; }
+        
+        .btn-print { background-color: white; color: black; }
+        .btn-print:hover { background-color: #ddd; }
+
+        @media print {
+            .btn-action, body { background-color: white; }
+            .card-custom { box-shadow: none; padding: 0; color: black !important; background-color: white !important; }
+            .table-custom td { background-color: #f0f0f0 !important; color: black !important; }
+            .info-value { color: black !important; border-bottom: 1px solid #000; }
+            .total-section { border: 1px solid #ccc; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1 class="page-title">Folha de Pagamento</h1>
+
+    <div class="card-custom">
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="info-label">Funcionário</div>
+                <div class="info-value">Maria Oliveira (Exemplo Visual)</div>
+            </div>
+            <div class="col-md-3">
+                <div class="info-label">CPF</div>
+                <div class="info-value">123.456.789-00</div>
+            </div>
+            <div class="col-md-3">
+                <div class="info-label">Cargo</div>
+                <div class="info-value">Analista de Sistemas</div>
+            </div>
+        </div>
+
+        <table class="table-custom">
+            <thead>
+                <tr>
+                    <th width="50%">Descrição</th>
+                    <th width="15%" class="text-center">Ref.</th>
+                    <th width="17%" class="text-end">Vencimentos</th>
+                    <th width="18%" class="text-end">Descontos</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Salário Base</td>
+                    <td class="text-center">30d</td>
+                    <td class="text-end text-earning">R$ 5.000,00</td>
+                    <td></td>
+                </tr>
+                
+                <tr>
+                    <td>Adicional Periculosidade</td>
+                    <td class="text-center">30%</td>
+                    <td class="text-end text-earning">R$ 1.500,00</td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td>INSS</td>
+                    <td class="text-center">14%</td>
+                    <td></td>
+                    <td class="text-end text-deduction">R$ 751,97</td>
+                </tr>
+
+                <tr>
+                    <td>IRRF (Imposto de Renda)</td>
+                    <td class="text-center">27.5%</td>
+                    <td></td>
+                    <td class="text-end text-deduction">R$ 680,45</td>
+                </tr>
+
+                <tr>
+                    <td>Vale Transporte</td>
+                    <td class="text-center">6%</td>
+                    <td></td>
+                    <td class="text-end text-deduction">R$ 300,00</td>
+                </tr>
+
+                <tr>
+                    <td>Vale Alimentação (Coparticipação)</td>
+                    <td class="text-center">-</td>
+                    <td></td>
+                    <td class="text-end text-deduction">R$ 25,00</td>
+                </tr>
+                
+                <tr>
+                    <td>FGTS (Depósito em conta vinculada)</td>
+                    <td class="text-center">8%</td>
+                    <td class="text-end text-reference">R$ 520,00</td>
+                    <td class="text-end text-reference">(Não descontado)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="total-section">
+            <div class="row">
+                <div class="col-4 text-center">
+                    <div class="total-label">Total Vencimentos</div>
+                    <div style="color: #333;">R$ 6.500,00</div>
+                </div>
+                <div class="col-4 text-center" style="border-left: 1px solid #ccc; border-right: 1px solid #ccc;">
+                    <div class="total-label">Total Descontos</div>
+                    <div style="color: #d9534f;">R$ 1.757,42</div>
+                </div>
+                <div class="col-4 text-center">
+                    <div class="total-label">SALÁRIO LÍQUIDO</div>
+                    <div class="total-value net-salary">R$ 4.742,58</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-between mt-4">
+            <a href="#" class="btn-action btn-back">← Voltar</a>
+            <button onclick="window.print()" class="btn-action btn-print">🖨️ Imprimir</button>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
