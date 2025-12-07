@@ -2,44 +2,67 @@ package br.com.gestaopagamento.Controller;
 
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.gestaopagamento.Models.Funcionario;
 import br.com.gestaopagamento.Service.FuncionarioService;
 
-@RestController
+@Controller
 @RequestMapping("/funcionarios")
 public class FuncionarioController {
 
-private final FuncionarioService funcionarioService;
+    private final FuncionarioService funcionarioService;
 
-public FuncionarioController(FuncionarioService funcionarioService) {
+    public FuncionarioController(FuncionarioService funcionarioService) {
         this.funcionarioService = funcionarioService;
-}
+    }
 
+    // 1. Abrir a tela de cadastro (GET)
+    @GetMapping("/novo")
+    public String cadastroFuncionario(Model model) { 
+        model.addAttribute("funcionario", new Funcionario());
+        return "CadastroFuncionario"; 
+    }
+
+    // 2. Receber e Salvar (POST) - AGORA BEM MAIS SIMPLES
     @PostMapping
-    public ResponseEntity<Funcionario> criarFuncionario(@RequestBody Funcionario novoFuncionario) {
-        Funcionario funcionarioSalvo = funcionarioService.criar(novoFuncionario);
-        return ResponseEntity.status(HttpStatus.CREATED).body(funcionarioSalvo);
+    public String criarFuncionario(Funcionario novoFuncionario, RedirectAttributes redirectAttributes) {
+        try {
+            // O campo 'dependentes' já vem preenchido dentro do 'novoFuncionario'
+            // graças ao th:field no HTML. Não precisa de loop manual!
+            
+            funcionarioService.criar(novoFuncionario);
+            
+            redirectAttributes.addFlashAttribute("mensagemSucesso", "Funcionário cadastrado com sucesso!");
+            return "redirect:/home";
+            
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("mensagemErro", "Erro: " + e.getMessage());
+            return "redirect:/funcionarios/novo";
+        }
     }
 
     @GetMapping("/listarTodos")
-    public ResponseEntity<List<Funcionario>> listarFuncionarios() {
+    public String listarFuncionarios(Model model) {
         List<Funcionario> todos = funcionarioService.listarTodos();
-        return ResponseEntity.ok(todos);
+        model.addAttribute("funcionarios", todos);
+        return "ListarFuncionarios";
     }
 
-    @PutMapping("/atualizar")
-    public ResponseEntity<Funcionario> atualizarFuncionario(@RequestBody Funcionario funcionarioAtualizado) {
-        Funcionario funcionario = funcionarioService.atualizar(funcionarioAtualizado);
-        return ResponseEntity.ok(funcionario);
+    @GetMapping("/editar/{cpf}")
+    public String editarFuncionario(@PathVariable String cpf, Model model) {
+        Funcionario funcionario = funcionarioService.buscarPorCpf(cpf);
+        model.addAttribute("funcionario", funcionario);
+        return "EditarFuncionario";
     }
 
+    @PostMapping("/atualizar")
+    public String atualizarFuncionario(Funcionario funcionario, RedirectAttributes redirectAttrs) {
+        funcionarioService.atualizar(funcionario);
+        redirectAttrs.addFlashAttribute("mensagemSucesso", "Funcionário atualizado com sucesso!");
+        return "redirect:/funcionarios/listarTodos";
+    }
 }

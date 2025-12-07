@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode; 
-import java.util.ArrayList;
+// Removi o import de ArrayList pois não é mais necessário
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,7 +22,6 @@ public class CalcularIRRFTest {
 
     @BeforeEach
     void setUp() {
-
         calculadoraINSS = new CalcularINSS();
         calculadora = new CalcularIRRF(calculadoraINSS);
     }
@@ -38,7 +37,10 @@ public class CalcularIRRFTest {
         funcionario.setPensaoAlimenticia(new BigDecimal("0.0"));
         funcionario.setOutrasDeducoes(new BigDecimal("0.0"));
         
-        funcionario.setDependentes(new ArrayList<>()); 
+        // --- MUDANÇA AQUI ---
+        // Antes: funcionario.setDependentes(new ArrayList<>());
+        // Agora: Passamos o número 0 (inteiro)
+        funcionario.setDependentes(0); 
         
         return funcionario;
     }
@@ -46,7 +48,6 @@ public class CalcularIRRFTest {
     private BigDecimal round(BigDecimal value) {
         return value.setScale(2, RoundingMode.HALF_UP);
     }
-
 
     @Test
     public void deveCalcularIRRFFaixaIsenta() {

@@ -18,7 +18,7 @@ public class CalcularPericulosidade implements IAdicional {
         
         // --- CORREÇÃO AQUI ---
         // O getter para um 'boolean periculosidade' gerado pelo Lombok é 'isPericulosidade()'
-        if (funcionario.isPericulosidade()) { 
+        if (funcionario.getPericulosidade() != null && funcionario.getPericulosidade()) { 
             return funcionario.getSalarioBruto().multiply(PORCENTAGEM).setScale(2, RoundingMode.HALF_UP);      
         }
         // --- FIM DA CORREÇÃO ---

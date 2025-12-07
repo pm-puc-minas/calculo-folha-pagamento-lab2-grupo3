@@ -44,7 +44,7 @@ public class CalcularIRRF implements IDesconto {
         
         BigDecimal salarioBase = funcionario.getSalarioBruto().subtract(valorInss);
 
-        BigDecimal qntdDependentes = new BigDecimal(funcionario.getDependentes().size());
+        BigDecimal qntdDependentes = new BigDecimal(funcionario.getDependentes());
 
         BigDecimal pensaoAlimenticia = Optional.ofNullable(funcionario.getPensaoAlimenticia()).orElse(BigDecimal.ZERO);
         BigDecimal outrasDeducoes = Optional.ofNullable(funcionario.getOutrasDeducoes()).orElse(BigDecimal.ZERO);
