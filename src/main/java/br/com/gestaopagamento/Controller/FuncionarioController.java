@@ -24,6 +24,9 @@ public FuncionarioController(FuncionarioService funcionarioService) {
         this.funcionarioService = funcionarioService;
 }
 
+    @GetMapping("/funcionario")
+    public String cadastroFuncionarioForm() { return "CadastroFuncionario";}
+
     @PostMapping
     public ResponseEntity<Funcionario> criarFuncionario(@RequestBody Funcionario novoFuncionario) {
         Funcionario funcionarioSalvo = funcionarioService.criar(novoFuncionario);

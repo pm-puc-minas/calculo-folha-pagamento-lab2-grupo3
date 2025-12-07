@@ -1,184 +1,266 @@
-# 📊 Belo Prato RH
-## 🧾 Introdução
+📊 Belo Prato RH — Sistema de Gestão de Folha de Pagamento
+🧾 Visão Geral
 
-Este projeto tem como objetivo o desenvolvimento de um **Sistema de Recursos Humanos (RH)** voltado para as necessidades específicas de restaurantes. A proposta é oferecer uma solução prática, intuitiva e eficiente para a **gestão de colaboradores**, contemplando funcionalidades como:
+O Belo Prato RH é um sistema completo de gestão de Recursos Humanos, desenvolvido em Java 17 + Spring Boot 3, com autenticação JWT e interface em Thymeleaf.
 
-- Cadastro e gerenciamento de funcionários  
-- Controle de escalas e turnos de trabalho  
-- Registro de ponto e jornadas  
-- Gestão de folgas e férias  
-- Relatórios e indicadores de desempenho
+Voltado para o setor de restaurantes, o sistema oferece:
 
-Em um ambiente dinâmico como o de restaurantes, onde a rotatividade e a organização de escalas são grandes desafios, este sistema busca **automatizar processos**, reduzir erros manuais e facilitar o trabalho do setor de RH.
+Cálculo automatizado da folha de pagamento (INSS, FGTS, IRRF, adicionais).
+
+Cadastro e atualização de funcionários.
+
+Autenticação e controle de acesso de usuários (gerentes de RH).
+
+Interface web amigável desenvolvida com Thymeleaf.
+
+⚙️ Tecnologias Utilizadas
+Camada	Tecnologia
+Backend	Java 17 • Spring Boot 3 • Spring Web • Spring Security (JWT)
+Banco de Dados	MySQL (ou outro relacional compatível)
+Frontend	Thymeleaf + HTML + Bootstrap
+Testes	JUnit 5 • Mockito
+Build	Maven
+Segurança	BCryptPasswordEncoder (criptografia de senhas)
+🚀 Como Executar o Projeto
+1️⃣ Clonar o Repositório
+git clone https://github.com/seuusuario/gestao-pagamento.git
+cd gestao-pagamento
+
+2️⃣ Configurar o Banco de Dados
+
+Edite src/main/resources/application.properties:
+
+spring.datasource.url=jdbc:mysql://localhost:3306/folha_pagamento
+spring.datasource.username=root
+spring.datasource.password=123456
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.thymeleaf.cache=false
+
+3️⃣ Compilar o Projeto
+mvn clean install
+
+4️⃣ Executar a Aplicação
+mvn spring-boot:run
 
 
-Projeto desenvolvido para disciplina de **Programação Modular** na PUC Minas.  
-O objetivo é criar um sistema em **Java com Spring Boot** para gerenciamento de **folha de pagamento**, aplicando conceitos de Programação Orientada a Objetos, modularidade e boas práticas.
+A aplicação estará disponível em:
+👉 http://localhost:8080
 
----
+🧩 Endpoints Principais
+🔐 Autenticação (/auth)
+1. Login
 
-## ✅ Descrição do Projeto
-O sistema deve permitir:
-- Autenticação de usuário (login e senha)
-- Cálculo da folha de pagamento com:
-  - Salário por hora
-  - Adicionais
-  - Benefícios (vale transporte, vale alimentação)
-  - Descontos (INSS, FGTS, IRRF)
-- Exibição de relatório com valores calculados
-- Persistência dos dados em banco
-- Integração futura com frontend
+POST /auth/login
 
----
+Body:
 
-## 🔍 Requisitos Funcionais
-- RF1 - Calcular Salário Hora
-- RF2 - Calcular Periculosidade
-- RF3 - Calcular Insalubridade
-- RF4 - Calcular Vale Transporte
-- RF5 - Calcular Vale Alimentação
-- RF6 - Calcular Desconto de INSS
-- RF7 - Calcular FGTS
-- RF8 - Calcular Desconto de IRRF
-- RF9 - Calcular Salário Líquido
-- RF10 - Exibir Relatório
-  
----
-
-## 🛠️ Tecnologias
-- Java 17+
-- Spring Boot
-- Banco de dados relacional (MySQL, PostgreSQL, etc.)
-- JUnit para testes
-
-# 🧾 Sistema de Gerenciamento de RH
-
-## 📘 Descrição Geral
-Este sistema foi desenvolvido para **gerenciar funcionários do setor de RH**, permitindo o **cadastro e autenticação de gerentes responsáveis**, além do **registro de funcionários** e do **cálculo automatizado de salários** com base em encargos e adicionais (como **insalubridade, FGTS, IRRF e periculosidade**).
-
----
-
-## 👥 Funcionalidades Principais
-
-### 🔐 Login e Cadastro de Gerentes
-O sistema possui uma **página de login** para os funcionários responsáveis pelo gerenciamento do RH.  
-Caso o usuário ainda não tenha conta, ele pode **criar um login**, informando:
-- Nome completo  
-- Telefone  
-- CPF  
-- E-mail  
-- Senha  
-- Código de acesso numérico gerado automaticamente  
-
-Após o login, o gerente tem acesso à área de gerenciamento do sistema.
-
----
-
-### 👨‍🍳 Cadastro de Funcionários
-Após o login, o gerente pode cadastrar novos funcionários, informando:
-- Nome completo  
-- Cargo (Cozinheiro, Garçom ou Limpeza)  
-- Telefone  
-- Salário base  
-- CPF  
-- Tipo de adicional (Insalubridade, Periculosidade etc.)
-
-O sistema realiza **cálculos automáticos no salário final**, considerando:
-- **IRRF (Imposto de Renda Retido na Fonte)**  
-- **FGTS (Fundo de Garantia do Tempo de Serviço)**  
-- **Adicional de Insalubridade e Periculosidade**  
-
----
-
-## 🧬 Uso da Herança
-A **herança** foi utilizada para **organizar as classes responsáveis pelo cálculo de salário** e **reaproveitar código comum** entre elas.
-
-### Exemplo:
-```java
-// Classe base
-class Salario {
-    protected double salarioBase;
-
-    public Salario(double salarioBase) {
-        this.salarioBase = salarioBase;
-    }
-
-    public double calcularSalarioFinal() {
-        return salarioBase;
-    }
+{
+  "login": "admin",
+  "password": "123456"
 }
 
-// Classe filha herda métodos e atributos da classe pai
-class SalarioComInsalubridade extends Salario {
-    public SalarioComInsalubridade(double salarioBase) {
-        super(salarioBase);
-    }
 
-    @Override
-    public double calcularSalarioFinal() {
-        return salarioBase + (salarioBase * 0.10); // 10% de adicional
-    }
-}
-````
-## Polimorfismo no Sistema 
-O polimorfismo foi utilizado no sistema de RH para permitir que diferentes tipos de funcionários ou cálculos de salário utilizem o mesmo método, mas com comportamentos distintos.
+Resposta (200):
 
-No contexto do sistema, cada funcionário pode ter um tipo diferente de adicional (como insalubridade, periculosidade, FGTS ou IRRF).
-Mesmo assim, todos possuem o mesmo método para calcular o salário final, chamado calcularSalarioFinal().
-### Exemplo:
-```java
-Salario salario1 = new SalarioComInsalubridade(2000);
-Salario salario2 = new SalarioComPericulosidade(2000);
-Salario salario3 = new SalarioComIRRF(2000);
-
-System.out.println(salario1.calcularSalarioFinal()); // calcula com insalubridade
-System.out.println(salario2.calcularSalarioFinal()); // calcula com periculosidade
-System.out.println(salario3.calcularSalarioFinal()); // calcula com IRRF
-````
-## Uso de interface 
-A interface foi usada para criar um contrato de comportamento que todas as classes responsáveis pelos cálculos de encargos devem seguir.
-
-Com isso, garantimos que todas as classes de cálculo (como IRRF, FGTS, Insalubridade, Periculosidade) tenham o mesmo método, chamado calcular().
-Essa padronização facilita a manutenção do sistema e permite que novas regras de cálculo sejam adicionadas facilmente.
-
-### Exemplo
-```java
-interface Calculavel {
-    double calcular();
+{
+  "token": "jwt-gerado-aqui"
 }
 
-class FGTS implements Calculavel {
-    private double salarioBase;
+2. Cadastro de Usuário
 
-    public FGTS(double salarioBase) {
-        this.salarioBase = salarioBase;
-    }
+POST /auth/register
 
-    @Override
-    public double calcular() {
-        return salarioBase * 0.08; // 8% de FGTS
-    }
+Body:
+
+{
+  "login": "novo_user",
+  "password": "senha123",
+  "role": "ADMIN"
 }
 
-class IRRF implements Calculavel {
-    private double salarioBase;
 
-    public IRRF(double salarioBase) {
-        this.salarioBase = salarioBase;
-    }
+Respostas:
 
-    @Override
-    public double calcular() {
-        return salarioBase * 0.075; // 7,5% de IRRF
-    }
+✅ 200 OK — Usuário criado
+
+⚠️ 400 Bad Request — Login já existente
+
+💡 O token JWT retornado deve ser enviado no header Authorization:
+Authorization: Bearer <token>
+
+👨‍🍳 Funcionários (/funcionarios)
+1. Criar Funcionário
+
+POST /funcionarios
+
+Body:
+
+{
+  "nome": "Maria Souza",
+  "cpf": "12345678901",
+  "cargo": "Cozinheira",
+  "salarioBruto": 2500.00,
+  "periculosidade": false,
+  "grauInsalubridade": "MEDIA",
+  "pensaoAlimenticia": 0.0,
+  "outrasDeducoes": 0.0
 }
-```
-Dessa forma, o sistema pode usar qualquer cálculo sem se preocupar com o tipo específico da classe:
-```java
-Calculavel c1 = new FGTS(2000);
-Calculavel c2 = new IRRF(2000);
 
-System.out.println(c1.calcular());
-System.out.println(c2.calcular());
-````
 
+Resposta (201):
+
+{
+  "id": 1,
+  "nome": "Maria Souza",
+  "cpf": "12345678901",
+  "salarioBruto": 2500.00
+}
+
+2. Listar Funcionários
+
+GET /funcionarios/listarTodos
+
+Resposta (200):
+
+[
+  {
+    "id": 1,
+    "nome": "Maria Souza",
+    "cpf": "12345678901",
+    "cargo": "Cozinheira"
+  }
+]
+
+3. Atualizar Funcionário
+
+PUT /funcionarios/atualizar
+
+Body:
+
+{
+  "cpf": "12345678901",
+  "cargo": "Gerente de Cozinha",
+  "salarioBruto": 3200.00
+}
+
+
+Resposta (200):
+
+{
+  "cpf": "12345678901",
+  "cargo": "Gerente de Cozinha",
+  "salarioBruto": 3200.00
+}
+
+💰 Folha de Pagamento (/folha)
+1. Calcular Folha
+
+POST /folha/calcular
+
+Body:
+
+{
+  "cpfFuncionario": "12345678901",
+  "mes": 10,
+  "horasTrabalhadas": 180
+}
+
+
+Resposta (200):
+
+{
+  "codigoPagamento": 12,
+  "mes": 10,
+  "salarioLiquido": 2135.00,
+  "valorValeAlimentacao": 350.00,
+  "valorValeTransporte": 220.00
+}
+
+2. Listar Folhas por Funcionário
+
+GET /folha/mostrar_salario/{cpf}
+Exemplo:
+GET /folha/mostrar_salario/12345678901
+
+Resposta (200):
+
+[
+  {
+    "mes": 9,
+    "salarioLiquido": 2150.00
+  },
+  {
+    "mes": 10,
+    "salarioLiquido": 2135.00
+  }
+]
+
+🧮 Entidades Principais
+Funcionario
+Campo	Tipo	Descrição
+id	Long	Identificador único
+nome	String	Nome completo
+cpf	String	CPF único
+cargo	String	Cargo do funcionário
+salarioBruto	BigDecimal	Valor base
+grauInsalubridade	Enum (MINIMA, MEDIA, MAXIMA)	Grau de insalubridade
+periculosidade	boolean	Indica adicional
+pensaoAlimenticia	BigDecimal	Valor de pensão
+outrasDeducoes	BigDecimal	Descontos adicionais
+folhasPagamento	List<FolhaPagamento>	Histórico de folhas
+FolhaPagamento
+Campo	Tipo	Descrição
+codigoPagamento	Long	Código único
+funcionario	Funcionario	Funcionário vinculado
+mes	int	Mês de referência
+horasTrabalhadas	BigDecimal	Horas trabalhadas
+salarioLiquido	BigDecimal	Valor líquido
+valorValeAlimentacao	BigDecimal	Vale alimentação
+valorValeTransporte	BigDecimal	Vale transporte
+🧪 Testes Unitários
+
+Execute:
+
+mvn test
+
+
+Os testes validam:
+
+Autenticação e geração de tokens JWT
+
+Criação e atualização de funcionários
+
+Cálculo de folha de pagamento
+
+🧠 Conceitos de POO Aplicados
+
+Herança: Reutilização de lógica de cálculo entre classes.
+
+Polimorfismo: Diferentes tipos de cálculo salarial com o mesmo método (calcularSalarioFinal()).
+
+Encapsulamento: Atributos protegidos e acessados via getters/setters.
+
+Interface: Contrato de cálculos (Calculavel → calcular()).
+
+💡 Próximos Passos
+
+🔐 Expandir autenticação com controle de roles (ADMIN, USER).
+
+📊 Criar dashboards com gráficos de desempenho no Thymeleaf.
+
+🧾 Adicionar exportação de relatórios em PDF.
+
+💾 Integrar cache e logs de auditoria.
+
+🖥️ Interface com Thymeleaf
+
+O frontend utiliza Thymeleaf para renderização dinâmica de páginas HTML com dados do backend.
+Exemplo de páginas planejadas:
+
+Página	Descrição
+/login	Tela de login do gerente (autenticação JWT)
+/cadastro	Cadastro de novos usuários
+/funcionarios	Lista e cadastro de funcionários
+/folha	Cálculo e visualização da folha de pagamento
+/relatorios	Exibição gráfica de estatísticas salariais

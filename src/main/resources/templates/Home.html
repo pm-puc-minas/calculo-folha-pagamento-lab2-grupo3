@@ -1,35 +1,176 @@
-<!doctype html>
-<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<!doctype html> 
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Home page</title>
-    <link rel="stylesheet" th:href="@{/css/Home.css}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Home - RH Belo Prato</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        
+        body {
+            background-color: white;
+            min-height: 100vh;
+            font-family: sans-serif;
+        }
+
+        
+        .navbar-custom {
+            background-color: #111;
+            padding: 15px 0;
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: white !important;
+        }
+
+        .nav-link {
+            color: #ccc !important;
+            font-weight: 500;
+        }
+        .nav-link:hover {
+            color: white !important;
+        }
+
+        
+        h1.page-title {
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: 900;
+            font-size: 3.5rem;
+            text-align: center;
+            margin-top: 60px;
+            margin-bottom: 60px;
+            color: black;
+        }
+
+        
+        .card-action {
+            background-color: #111; 
+            color: white;
+            border-radius: 40px;    
+            padding: 50px 30px;     
+            text-align: center;
+            height: 100%;
+            min-height: 300px;      
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card-action:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+        }
+
+        .card-icon {
+            font-size: 3.5rem;
+            margin-bottom: 25px;
+        }
+
+        .card-title {
+            font-family: 'Times New Roman', serif;
+            font-weight: bold;
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .card-desc {
+            font-size: 1.1rem;
+            color: #ccc;
+            margin-bottom: 30px;
+        }
+
+        
+        .btn-action {
+            background-color: white;
+            color: black;
+            border-radius: 30px;
+            padding: 12px 40px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            transition: 0.2s;
+            font-size: 1.1rem;
+        }
+        .btn-action:hover {
+            background-color: #e2e2e2;
+            transform: scale(1.05);
+        }
+
+        .btn-logout {
+            border: 1px solid white;
+            border-radius: 20px;
+            color: white;
+            padding: 5px 20px;
+            transition: 0.3s;
+        }
+        .btn-logout:hover {
+            background-color: white;
+            color: black;
+        }
+    </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
+
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container">
             <a class="navbar-brand" href="#">RH Belo Prato</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            
+            <button class="navbar-toggler bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/home">Home</a>
+
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav align-items-center">
+                    <li class="nav-item me-3">
+                        <span class="nav-link" th:if="${user}" th:text="'Olá, ' + ${user.nome}">Olá, Usuário</span>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="auth/register">Nova conta</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Novo funcionário</a>
+                        <form th:action="@{/logout}" method="post" style="margin: 0;">
+                            <button class="btn btn-logout bg-transparent" type="submit">Sair</button>
+                        </form>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <div class="container">
+        
+        <h1 class="page-title">Painel de Controle</h1>
+
+        <div class="row justify-content-center g-5">
+
+            <div class="col-md-5" sec:authorize="hasRole('ADMIN')">
+                <div class="card-action">
+                    <div class="card-icon"></div>
+                    <h3 class="card-title">Novo Funcionário</h3>
+                    <p class="card-desc">Cadastre novos colaboradores e gere acessos ao sistema.</p>
+                    <a th:href="@{/funcionarios/funcionario}" class="btn-action">Cadastrar</a>
+                </div>
+            </div>
+
+            <div class="col-md-5">
+                <div class="card-action">
+                    <div class="card-icon"></div>
+                    <h3 class="card-title">Vizualizar Folha de Pagamento</h3>
+                    <p class="card-desc">Visualize, baixe ou imprima suas folhas de pagamento.</p>
+                    <a href="#" class="btn-action">Acessar</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

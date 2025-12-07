@@ -3,50 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Cadastro page</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" th:href="@{/css/Cadastro.css}">
+    <title>Cadastro - RH Estratégico</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        
+        body {
+            background-color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: sans-serif;
+        }
+
+        
+        h1.page-title {
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: bold;
+            font-size: 3rem;
+            margin-bottom: 40px;
+            color: black;
+            text-align: center;
+        }
+
+       
+        .card-custom {
+            background-color: #111; 
+            width: 100%;
+            max-width: 500px;       
+            padding: 50px 40px;
+            border-radius: 50px;   
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            color: white;          
+        }
+
+        
+        .form-control-pill {
+            background-color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 15px 25px;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+        
+        .form-control-pill:focus {
+            box-shadow: 0 0 10px rgba(255,255,255,0.5);
+            outline: none;
+        }
+
+       
+        .btn-custom {
+            background-color: white;
+            color: black;
+            font-weight: bold;
+            border-radius: 30px;
+            padding: 12px;
+            width: 100%;
+            border: none;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+        .btn-custom:hover {
+            background-color: #e2e2e2;
+            transform: scale(1.02);
+        }
+
+        
+        .form-check-input {
+            cursor: pointer;
+        }
+        .form-check-label {
+            cursor: pointer;
+            font-size: 1.1rem;
+            margin-right: 15px;
+        }
+        
+       
+        .alert-custom {
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
-        <!--Mensagens de erro-->
-            <div th:if="${successMessage}" class="alert alert-success" role="alert">
-                <span th:text="${successMessage}"></span>
+
+    <h1 class="page-title">Cadastre - se</h1>
+
+    <div class="card-custom">
+        
+        <div th:if="${successMessage}" class="alert alert-success alert-custom text-center" role="alert">
+            <span th:text="${successMessage}"></span>
+        </div>
+        <div th:if="${errorMessage}" class="alert alert-danger alert-custom text-center" role="alert">
+            <span th:text="${errorMessage}"></span>
+        </div>
+
+        <form th:action="@{register}" method="POST" onsubmit="return validatePassword()">
+            
+            <div class="mb-3">
+                <input type="text" class="form-control form-control-pill" name="login" id="formGroupExampleInput" placeholder="Usuário (CPF)" required>
             </div>
-            <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
-                <span th:text="${errorMessage}"></span>
+
+            <div class="mb-3">
+                <input type="password" class="form-control form-control-pill" name="password" id="password" placeholder="Senha" required>
             </div>
-        <!--Formulário do cadastro-->
-            <form th:action="@{register}" method="POST" onsubmit="return validatePassword()">
-                <div class="mb-3">
-                    <label for="formGroupExampleInput" class="form-label">Usuário</label>
-                    <input type="text" class="form-control" name="login" id="formGroupExampleInput" placeholder="Digite um CPF!">
-                </div>
-                <div class="mb-3">
-                    <label for="formGroupExampleInput2" class="form-label">Senha</label>
-                    <input type="password" class="form-control" name="password" id="formGroupExampleInput2" placeholder="Digite uma senha" required>
-                </div>
-                <div class="mb-3">
-                    <label for="formGroupExampleInput3" class="form-label">Senha</label>
-                    <input type="password" class="form-control" id="formGroupExampleInput3" placeholder="Repita a senha" required>
-                    <div id="passwordMismatchError" style="color: red; display: none;">As senhas não são iguais.</div>
-                </div>
-                <div class="form-check">
+
+            <div class="mb-3">
+                <input type="password" class="form-control form-control-pill" id="confirmPassword" placeholder="Repita a senha" required>
+                <div id="passwordMismatchError" class="text-center mt-2" style="color: #ff6b6b; display: none; font-weight: bold;">As senhas não conferem.</div>
+            </div>
+
+            <div class="mb-3 text-center">
+                <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="role" value="ADMIN" id="ADMIN">
-                    <label class="form-check-label" for="ADMIN">
-                        Admin
-                    </label>
+                    <label class="form-check-label" for="ADMIN">Admin</label>
                 </div>
-                <div class="form-check">
+                <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="role" value="USER" id="USER" checked>
-                    <label class="form-check-label" for="USER">
-                        Funcionario
-                    </label>
+                    <label class="form-check-label" for="USER">Funcionário</label>
                 </div>
-                <div class="d-grid gap-2">
-                    <button class="btn btn-primary" type="submit">Cadastrar</button>
-                </div>
-            </form>
-        <script th:src="@{/js/ValidationPassword.js}"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+            </div>
+
+            <div class="d-grid">
+                <button class="btn btn-custom" type="submit">CADASTRAR</button>
+            </div>
+            
+            <div class="text-center mt-3">
+                <a th:href="@{/auth/login}" style="color: white; text-decoration: none; font-size: 0.9rem;">Voltar para Login</a>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function validatePassword() {
+            const p1 = document.getElementById("password").value;
+            const p2 = document.getElementById("confirmPassword").value;
+            const err = document.getElementById("passwordMismatchError");
+            
+            if (p1 !== p2) {
+                err.style.display = "block";
+                return false; 
+            }
+            err.style.display = "none";
+            return true;
+        }
+    </script>
 </body>
 </html>

@@ -3,26 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login page</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" th:href="@{/css/Login.css}">
+    <title>Login - RH Estratégico</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        
+        body {
+            background-color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: sans-serif;
+        }
+
+        
+        h1.main-title {
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: bold;
+            font-size: 3rem; 
+            margin-bottom: 40px;
+            color: black;
+            text-align: center;
+        }
+
+        
+        .login-card {
+            background-color: #111; 
+            width: 100%;
+            max-width: 450px;       
+            padding: 50px 30px;     
+            border-radius: 50px;    
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        
+        .form-control-pill {
+            border-radius: 30px;    
+            border: none;
+            padding: 15px 20px;     
+            font-size: 1.1rem;
+            margin-bottom: 20px;    
+        }
+
+        
+        .btn-enter {
+            width: 100%;
+            border-radius: 30px;
+            padding: 10px;
+            font-weight: bold;
+            background-color: white;
+            color: black;
+            border: none;
+            transition: 0.3s;
+        }
+        .btn-enter:hover {
+            background-color: #e2e2e2;
+        }
+
+       
+        .link-create {
+            margin-top: 20px;
+            color: black;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+        .link-create:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-<!--Formulário do Login-->
-    <form th:action="@{login}" method="POST">
-        <div class="mb-3">
-            <label for="formGroupExampleInput" class="form-label">Login</label>
-            <input type="text" class="form-control" id="formGroupExampleInput" name="login" placeholder="Digite seu CPF!">
-        </div>
-        <div class="mb-3">
-            <label for="formGroupExampleInput2" class="form-label">Senha</label>
-            <input type="password" class="form-control" id="formGroupExampleInput2" name="password" placeholder="Digite sua senha">
-        </div>
-        <div class="d-grid gap-2">
-            <button class="btn btn-primary" type="submit">Entrar</button>
-        </div>
-    </form>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <h1 class="main-title">RH Estratégico em Foco</h1>
+
+    <div class="login-card">
+        <form th:action="@{/auth/login}" method="POST">
+            
+            <div class="mb-3">
+                <input type="text" class="form-control form-control-pill" 
+                       name="login" placeholder="Login" required>
+            </div>
+
+            <div class="mb-3">
+                <input type="password" class="form-control form-control-pill" 
+                       name="password" placeholder="Senha" required>
+            </div>
+
+            <div class="d-grid">
+                <button class="btn btn-enter" type="submit">ENTRAR</button>
+            </div>
+        </form>
+    </div>
+
+    <a th:href="@{/auth/register}" class="link-create">Criar login</a>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
