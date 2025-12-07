@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -34,7 +35,9 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.GET,"/funcionarios").permitAll()
                         .requestMatchers(HttpMethod.POST,"/funcionarios").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET,"/funcionarios/novo").permitAll()
+                        .requestMatchers(HttpMethod.POST,("/funcionarios/salvar")).permitAll()
                         .requestMatchers(HttpMethod.GET, "/home").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/Calcular").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

@@ -110,7 +110,7 @@
                     <input type="text" class="form-control form-control-pill mb-3 mb-md-0" name="nome" placeholder="Nome" required>
                 </div>
                 <div class="col-md-6">
-                    <input type="number" step="0.01" class="form-control form-control-pill" name="salario" placeholder="Salário bruto" required>
+                    <input type="number" step="0.01" class="form-control form-control-pill" name="salarioBruto" placeholder="Salário bruto" required>
                 </div>
             </div>
 
@@ -131,7 +131,7 @@
 
             <div class="row row-gap">
                 <div class="col-md-6">
-                    <select class="form-select form-select-pill" name="grauInsalubridade" required>
+                    <select class="form-select form-select-pill" name="periculosidade" required>
                         <option value="" selected disabled>Periculosidade</option>
                         <option value="true">Sim</option>
                         <option value="false">Não</option>
@@ -150,7 +150,7 @@
             </div>
             <div class="row row-gap">
                 <div class="col-md-6">
-                    <input type="number" step="0.01" class="form-control form-control-pill" name="dependentes" placeholder="Dependentes" required>
+                    <input type="number" class="form-control form-control-pill" name="numeroDependentes" value="" placeholder="Qtd. Dependentes" required>
                 </div>
                 <div class="col-md-6">
                     <input type="number" step="0.01" class="form-control form-control-pill" name="pensaoAlimenticia" placeholder="Pensão Alimenticia" required>
