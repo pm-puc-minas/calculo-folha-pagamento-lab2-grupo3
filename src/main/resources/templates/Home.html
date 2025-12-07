@@ -149,16 +149,6 @@
         <h1 class="page-title">Painel de Controle</h1>
 
         <div class="row justify-content-center g-5">
-
-            <div class="col-md-5" sec:authorize="hasAuthority('ADMIN')">
-                <div class="card-action">
-                    <div class="card-icon"></div>
-                    <h3 class="card-title">Novo Funcionário</h3>
-                    <p class="card-desc">Cadastre novos colaboradores e gere acessos ao sistema.</p>
-                    <a th:href="@{/funcionarios/novo}" class="btn-action">Cadastrar</a>
-                </div>
-            </div>
-
             <div class="col-md-5">
                 <div class="card-action">
                     <div class="card-icon"></div>
@@ -167,7 +157,15 @@
                     <a href="#" class="btn-action">Acessar</a>
                 </div>
             </div>
+        </div>
 
+        <div class="col-md-5">
+            <div class="card-action">
+                <div class="card-icon"></div>
+                <h3 class="card-title">Editar Perfil</h3>
+                <p class="card-desc">Edite seu perfil e deixe sua folha de pagamento sempre atualizada.</p>
+                <a th:href="@{/funcionarios/editar}" class="btn-action">Editar</a>
+            </div>
         </div>
     </div>
 
