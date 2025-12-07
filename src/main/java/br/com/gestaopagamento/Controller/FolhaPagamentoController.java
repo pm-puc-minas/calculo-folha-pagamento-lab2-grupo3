@@ -5,9 +5,10 @@ import br.com.gestaopagamento.Models.FolhaPagamento;
 import br.com.gestaopagamento.Service.FolhaPagamentoService;
 
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
 @RequestMapping("/folha")
 public class FolhaPagamentoController {
 

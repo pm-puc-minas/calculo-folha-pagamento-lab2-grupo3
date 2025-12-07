@@ -145,7 +145,11 @@
     </nav>
 
     <div class="container">
-        
+
+        <div th:if="${mensagemSucesso}" class="alert alert-success">
+            <p th:text="${mensagemSucesso}"></p>
+        </div>
+
         <h1 class="page-title">Painel de Controle</h1>
 
         <div class="row justify-content-center g-5">
@@ -165,6 +169,15 @@
                     <h3 class="card-title">Vizualizar Folha de Pagamento</h3>
                     <p class="card-desc">Visualize, baixe ou imprima suas folhas de pagamento.</p>
                     <a href="#" class="btn-action">Acessar</a>
+                </div>
+            </div>
+
+            <div class="col-md-5" sec:authorize="hasRole('ADMIN')">
+                <div class="card-action">
+                    <div class="card-icon"></div>
+                    <h3 class="card-title">Listar Funcionários</h3>
+                    <p class="card-desc">Veja todos os funcionários cadastrados e edite seus dados.</p>
+                    <a th:href="@{/funcionarios/listarTodos}" class="btn-action">Acessar</a>
                 </div>
             </div>
 
