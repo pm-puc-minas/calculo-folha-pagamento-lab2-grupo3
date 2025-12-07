@@ -51,5 +51,5 @@ public FuncionarioController(FuncionarioService funcionarioService) {
         redirectAttrs.addFlashAttribute("mensagemSucesso", "Funcionário atualizado com sucesso!");
         return "redirect:/funcionarios/listarTodos";
     }
-
+    
 }
