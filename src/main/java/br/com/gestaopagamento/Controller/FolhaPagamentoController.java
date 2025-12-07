@@ -19,7 +19,7 @@ public class FolhaPagamentoController {
     }
 
     @PostMapping("/calcular")
-    public FolhaPagamento calcularFolha(@RequestBody CalculoFolhaRequest request) {
+    public FolhaPagamento calcularFolha(CalculoFolhaRequest request) {
         
 
         return folhaPagamentoService.calcularFolha(

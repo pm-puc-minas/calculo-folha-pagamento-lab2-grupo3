@@ -101,7 +101,7 @@
 <h1 class="page-title">Editar Funcionário</h1>
 
 <div class="card-custom">
-    <form th:action="@{/funcionarios/editar}" th:object="${funcionario}" method="POST">
+    <form th:action="@{/funcionarios/atualizar}" th:object="${funcionario}" method="POST">
 
         <input type="hidden" th:field="*{id}"/>
 

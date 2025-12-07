@@ -28,7 +28,7 @@ public FuncionarioController(FuncionarioService funcionarioService) {
         Funcionario funcionarioSalvo = funcionarioService.criar(novoFuncionario);
         redirectAttributes.addFlashAttribute("mensagemSucesso", "Usuário criado com sucesso!");
 
-        return "redirect:/Home";
+        return "redirect:/home";
     }
 
     @GetMapping("/listarTodos")
