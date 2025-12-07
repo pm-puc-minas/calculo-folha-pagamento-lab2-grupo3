@@ -28,17 +28,25 @@ public class SecurityConfigurations {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
+                        // Rotas de Autenticação
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
                         .requestMatchers(HttpMethod.GET, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/auth/register").permitAll()
+                        
+                        // Rotas de Funcionário (Cadastro e Leitura)
                         .requestMatchers(HttpMethod.GET,"/funcionarios").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/funcionarios").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/funcionarios").permitAll() // Liberado POST
                         .requestMatchers(HttpMethod.GET,"/funcionarios/novo").permitAll()
+                        .requestMatchers(HttpMethod.POST,("/funcionarios/salvar")).permitAll()
+                        
+                        // Outras Páginas
                         .requestMatchers(HttpMethod.GET, "/home").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/funcionarios").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/funcionarios/novo").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/Calcular").permitAll() // <-- ADICIONADO DA OUTRA BRANCH
+                        
+                        // Essencial para Debug
                         .requestMatchers(new AntPathRequestMatcher("/error")).permitAll()
+                        
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

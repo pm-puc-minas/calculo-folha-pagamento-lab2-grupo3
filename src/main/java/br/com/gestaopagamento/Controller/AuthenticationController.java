@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.security.core.AuthenticationException;
 
 @Controller
 @RequestMapping("auth")
@@ -36,23 +37,28 @@ public class AuthenticationController {
 
     @GetMapping("/register")
     public String registerForm() {
-        return "Cadastro";
+        return "CadastroFuncionario";
     }
 
     @PostMapping("/login")
     public String login(@Valid AuthenticationDTO data, HttpServletResponse response) {
-        var usernamePassword = new UsernamePasswordAuthenticationToken(data.getLogin(), data.getPassword());
-        var auth = authenticationManager.authenticate(usernamePassword);
-        var token = tokenService.generateToken((User) auth.getPrincipal());
-
-        Cookie cookie = new Cookie("token", token);
-        cookie.setHttpOnly(true);
-        cookie.setMaxAge(24 * 60 * 60);
-        cookie.setPath("/");
-        response.addCookie(cookie);
-
-        return "redirect:/home";
+        try{
+            var usernamePassword = new UsernamePasswordAuthenticationToken(data.getLogin(), data.getPassword());
+            var auth = authenticationManager.authenticate(usernamePassword);
+            var token = tokenService.generateToken((User) auth.getPrincipal());
+    
+            Cookie cookie = new Cookie("token", token);
+            cookie.setHttpOnly(true);
+            cookie.setMaxAge(24 * 60 * 60);
+            cookie.setPath("/");
+            response.addCookie(cookie);
+    
+            return "redirect:/home";
+        }catch(AuthenticationException e){
+            return "redirect:/auth/login?error=true";
+        }
     }
+
     @PostMapping("/register")
     public String register(@Valid CadastroDTO data, RedirectAttributes redirectAttributes){
         if(repository.findByLogin(data.getLogin())!=null){
