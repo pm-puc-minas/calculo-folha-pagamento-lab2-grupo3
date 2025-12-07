@@ -5,9 +5,10 @@ import br.com.gestaopagamento.Models.FolhaPagamento;
 import br.com.gestaopagamento.Service.FolhaPagamentoService;
 
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
 @RequestMapping("/folha")
 public class FolhaPagamentoController {
 
@@ -18,7 +19,7 @@ public class FolhaPagamentoController {
     }
 
     @PostMapping("/calcular")
-    public FolhaPagamento calcularFolha(@RequestBody CalculoFolhaRequest request) {
+    public FolhaPagamento calcularFolha(CalculoFolhaRequest request) {
         
 
         return folhaPagamentoService.calcularFolha(

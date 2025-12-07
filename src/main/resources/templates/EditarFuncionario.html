@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Cadastro de Funcionário</title>
+    <title>Editar Funcionário</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
+
     <style>
-        
         body {
             background-color: white;
             min-height: 100vh;
@@ -48,7 +47,7 @@
             width: 100%;
             color: #000;
         }
-        
+
         .form-select-pill {
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
             background-repeat: no-repeat;
@@ -62,7 +61,7 @@
             outline: none;
             background-color: white;
         }
-        
+
         .form-control-pill::placeholder { color: #666; }
         .row-gap { margin-bottom: 25px; }
 
@@ -99,60 +98,55 @@
 </head>
 <body>
 
-    <h1 class="page-title">Cadastro Funcionário</h1>
+<h1 class="page-title">Editar Funcionário</h1>
 
-    <div class="card-custom">
-        
-        <form th:action="@{/funcionarios}" method="POST">
-            
-            <div class="row row-gap">
-                <div class="col-md-6">
-                    <input type="text" class="form-control form-control-pill mb-3 mb-md-0" name="nome" placeholder="Nome" required>
-                </div>
-                <div class="col-md-6">
-                    <input type="number" step="0.01" class="form-control form-control-pill" name="salarioBruto" placeholder="Salário (R$)" required>
-                </div>
+<div class="card-custom">
+    <form th:action="@{/funcionarios/atualizar}" th:object="${funcionario}" method="POST">
+
+        <input type="hidden" th:field="*{id}"/>
+
+        <div class="row row-gap">
+            <div class="col-md-6">
+                <input type="text" class="form-control form-control-pill mb-3 mb-md-0" th:field="*{nome}" placeholder="Nome" required>
             </div>
-
-            <div class="row row-gap">
-                <div class="col-md-6">
-                    <input type="text" class="form-control form-control-pill mb-3 mb-md-0" name="cargo" placeholder="Trabalho (Cargo)" required>
-                </div>
-                <div class="col-md-6">
-                    <input type="text" 
-                           class="form-control form-control-pill" 
-                           name="cpf" 
-                           placeholder="CPF (Apenas números)" 
-                           maxlength="11" 
-                           oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-                           required>
-                </div>
+            <div class="col-md-6">
+                <input type="number" step="0.01" class="form-control form-control-pill" th:field="*{salarioBruto}" placeholder="Salário (R$)" required>
             </div>
+        </div>
 
-            <div class="row row-gap">
-                <div class="col-md-6">
-                    <select class="form-select form-select-pill" name="grauInsalubridade" required>
-                        <option value="" selected disabled>Insalubridade</option>
-                        <option value="NENHUM">Nenhum</option>
-                        <option value="BAIXO">Baixo</option>
-                        <option value="MEDIO">Médio</option>
-                        <option value="ALTO">Alto</option>
-                    </select>
-                </div>
+        <div class="row row-gap">
+            <div class="col-md-6">
+                <input type="text" class="form-control form-control-pill mb-3 mb-md-0" th:field="*{cargo}" placeholder="Trabalho (Cargo)" required>
             </div>
-
-            <div class="row mt-5">
-                <div class="col-md-12 mb-3">
-                    <button class="btn btn-green" type="submit">Efetuar Cadastro</button>
-                </div>
-                <div class="col-md-12">
-                    <a th:href="@{/home}" class="btn btn-red">Cancelar</a>
-                </div>
+            <div class="col-md-6">
+                <input type="text" class="form-control form-control-pill" th:field="*{cpf}" placeholder="CPF (Apenas números)" maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
             </div>
+        </div>
 
-        </form>
-    </div>
+        <div class="row row-gap">
+            <div class="col-md-12">
+                <select class="form-select form-select-pill" th:field="*{grauInsalubridade}" required>
+                    <option value="" disabled>Insalubridade</option>
+                    <option value="NENHUM">Nenhum</option>
+                    <option value="BAIXO">Baixo</option>
+                    <option value="MEDIO">Médio</option>
+                    <option value="ALTO">Alto</option>
+                </select>
+            </div>
+        </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <div class="row mt-5">
+            <div class="col-md-12 mb-3">
+                <button class="btn btn-green" type="submit">Salvar Alterações</button>
+            </div>
+            <div class="col-md-12">
+                <a th:href="@{/funcionarios/listarTodos}" class="btn btn-red">Cancelar</a>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
