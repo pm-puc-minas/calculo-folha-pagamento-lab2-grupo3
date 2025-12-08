@@ -28,6 +28,8 @@ public class SecurityConfigurations {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(HttpMethod.POST, "/h2-console/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/h2-console/**").permitAll()
                         // Rotas de Autenticação
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
@@ -43,12 +45,14 @@ public class SecurityConfigurations {
                         // Outras Páginas
                         .requestMatchers(HttpMethod.GET, "/home").permitAll()
                         .requestMatchers(HttpMethod.GET, "/Calcular").permitAll() // <-- ADICIONADO DA OUTRA BRANCH
+
                         
                         // Essencial para Debug
                         .requestMatchers(new AntPathRequestMatcher("/error")).permitAll()
                         
                         .anyRequest().authenticated()
                 )
+                .headers(headers -> headers.frameOptions(frame -> frame.disable()))
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
