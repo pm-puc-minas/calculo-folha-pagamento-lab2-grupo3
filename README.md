@@ -73,6 +73,8 @@ mvn spring-boot:run
 | http://localhost:8080/funcionarios/novo | GET | Formulário de novo funcionário | *CadastroFuncionario.html* |
 | http://localhost:8080/Calcular | GET | Cálculo de folha de pagamento | *CalcularSalario.html* |
 | http://localhost:8080/folha | GET | Visualizar folhas geradas | *FolhaPagamento.html* |
+| http://localhost:8080/folha/listarFolhas | GET | Listagem de todas as folhas de pagamento | *ListarFolhas.html* |
+| http://localhost:8080/funcionarios/listarFuncionarios | GET | Listagem detalhada de funcionários | *ListarFuncionarios.html* |
 
 ---
 
