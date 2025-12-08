@@ -18,16 +18,17 @@ public class FolhaPagamentoController {
         this.folhaPagamentoService = folhaPagamentoService;
     }
 
-    @PostMapping("/calcular")
-    public FolhaPagamento calcularFolha(CalculoFolhaRequest request) {
-        
-
-        return folhaPagamentoService.calcularFolha(
-            request.getCpfFuncionario(), 
-            request.getMes(), 
-            request.getHorasTrabalhadas()
-        );
-    }
+   @PostMapping("/calcular")
+public FolhaPagamento calcularFolha(CalculoFolhaRequest request) {
+    
+    
+    return folhaPagamentoService.calcularFolha(
+        request.getCpfFuncionario(), 
+        request.getMes(), 
+        request.getAno(), 
+        request.getHorasTrabalhadas()
+    );
+}
     @GetMapping("/mostrar_salario/{cpf}")
     public java.util.List<FolhaPagamento> listarFolhas(@PathVariable String cpf) {
         return folhaPagamentoService.MostrarTodosSalariosFuncionario(cpf);

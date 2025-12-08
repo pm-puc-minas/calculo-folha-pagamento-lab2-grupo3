@@ -38,13 +38,15 @@ public class SecurityConfigurations {
                         
                         // Rotas de Funcionário (Cadastro e Leitura)
                         .requestMatchers(HttpMethod.GET,"/funcionarios").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/funcionarios").permitAll() // Liberado POST
+                        .requestMatchers(HttpMethod.POST,"/funcionarios").permitAll() 
                         .requestMatchers(HttpMethod.GET,"/funcionarios/novo").permitAll()
                         .requestMatchers(HttpMethod.POST,("/funcionarios/salvar")).permitAll()
                         
                         // Outras Páginas
                         .requestMatchers(HttpMethod.GET, "/home").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/Calcular").permitAll() // <-- ADICIONADO DA OUTRA BRANCH
+                        .requestMatchers(HttpMethod.GET, "/Calcular").permitAll() 
+                        .requestMatchers(HttpMethod.POST, "/Calcular").permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/Calcular/**")).permitAll()
 
                         
                         // Essencial para Debug

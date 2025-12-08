@@ -10,57 +10,62 @@ import org.springframework.stereotype.Service;
 import br.com.gestaopagamento.Models.FolhaPagamento;
 import br.com.gestaopagamento.Models.Funcionario;
 import br.com.gestaopagamento.Repository.IFolhaPagamentoRepository;
-
+import br.com.gestaopagamento.Service.impl.CalcularINSS;
+import br.com.gestaopagamento.Service.impl.CalcularIRRF;
 import br.com.gestaopagamento.Service.impl.CalcularValeAlimentacao;
 import br.com.gestaopagamento.Service.impl.CalcularValeTransporteBeneficio;
 
-
 @Service
 public class FolhaPagamentoService {
+    
     private final IFolhaPagamentoRepository folhaPagamentoRepository;
-
-    private final List<IAdicional> regrasAdicionais;
-    private final List<IDesconto> regrasDescontos;
-
     private final FuncionarioService funcionarioService;
+    private final List<IAdicional> regrasAdicionais;
+    
+    // Instanciamos as calculadoras aqui para usar explicitamente
+    private final CalcularINSS calcularINSS = new CalcularINSS();
+    private final CalcularIRRF calcularIRRF = new CalcularIRRF(new CalcularINSS());
 
-    public FolhaPagamentoService(IFolhaPagamentoRepository folhaPagamentoRepository, List<IAdicional> regrasAdicionais, List<IDesconto> regrasDescontos, FuncionarioService funcionarioService) {
-        
-        
+    public FolhaPagamentoService(IFolhaPagamentoRepository folhaPagamentoRepository, 
+                                 List<IAdicional> regrasAdicionais, 
+                                 List<IDesconto> regrasDescontos, // Mantido caso use outros descontos
+                                 FuncionarioService funcionarioService) {
         this.folhaPagamentoRepository = folhaPagamentoRepository;
         this.regrasAdicionais = regrasAdicionais;
-        this.regrasDescontos = regrasDescontos;
         this.funcionarioService = funcionarioService;
     }
 
-    public FolhaPagamento calcularFolha(String cpf, int mes, BigDecimal horasTrabalhadas) {
+    // MUDANÇA: Adicionei 'int ano' nos parâmetros
+    public FolhaPagamento calcularFolha(String cpf, int mes, int ano, BigDecimal horasTrabalhadas) {
         
         Funcionario funcionario = funcionarioService.buscarPorCpf(cpf);
         if (funcionario == null) {
             throw new IllegalArgumentException("Funcionário com CPF " + cpf + " não encontrado.");
         }
-        //Adicionais
+
+        // 1. Adicionais
         BigDecimal totalAdicionais = BigDecimal.ZERO;
         for (IAdicional regra : regrasAdicionais) {
             totalAdicionais = totalAdicionais.add(regra.calcular(funcionario));
         }
 
-        //Benefícios 
+        // 2. Benefícios
         IBeneficio valeAlimentacao = new CalcularValeAlimentacao(new BigDecimal("30.00"), horasTrabalhadas.intValue());
         IBeneficio valeTransporte = new CalcularValeTransporteBeneficio(new BigDecimal("200.00"));
+        
         BigDecimal valorValeAlimentacao = valeAlimentacao.calcular(funcionario);
         BigDecimal valorValeTransporte = valeTransporte.calcular(funcionario);
 
-        //Descontos
-        BigDecimal totalDescontos = BigDecimal.ZERO;
-        for (IDesconto regra : regrasDescontos) {
-            totalDescontos = totalDescontos.add(regra.calcular(funcionario));
-        }
+        // 3. Impostos (Calculados separadamente para salvar no histórico)
+        BigDecimal valorINSS = calcularINSS.calcular(funcionario);
+        BigDecimal valorIRRF = calcularIRRF.calcular(funcionario);
+        
+        BigDecimal totalDescontos = valorINSS.add(valorIRRF);
 
-        //Salário Bruto
+        // 4. Salário Bruto
         BigDecimal salarioBruto = funcionario.getSalarioBruto();
 
-        //Salário Líquido
+        // 5. Salário Líquido
         BigDecimal salarioLiquido = salarioBruto
                 .add(totalAdicionais)
                 .add(valorValeAlimentacao)
@@ -71,28 +76,24 @@ public class FolhaPagamentoService {
 
         salarioLiquido = salarioLiquido.setScale(2, RoundingMode.HALF_UP);
 
-        //Objeto Final
-        FolhaPagamento folhaPagamento = new FolhaPagamento(
-                funcionario,
-                mes,
-                horasTrabalhadas,
-                salarioLiquido,
-                valorValeAlimentacao,
-                valorValeTransporte 
-        );
-        return folhaPagamentoRepository.save(folhaPagamento);
+        // 6. Montagem do Objeto
+        FolhaPagamento folha = new FolhaPagamento();
+        folha.setFuncionario(funcionario);
+        folha.setMes(mes);
+        folha.setAno(ano); // <-- Salvando o ano
+        folha.setHorasTrabalhadas(horasTrabalhadas);
+        folha.setSalarioLiquido(salarioLiquido);
+        folha.setValorValeAlimentacao(valorValeAlimentacao);
+        folha.setValorValeTransporte(valorValeTransporte);
+        
+        // Salvando os impostos para exibir no holerite
+        folha.setValorINSS(valorINSS);
+        folha.setValorIRRF(valorIRRF);
+
+        return folhaPagamentoRepository.save(folha);
     }
 
-    //mostrar salario de um funcionario e determinado mes
-    public FolhaPagamento MostrarSalario(Funcionario funcionario, int mes) {
-    
-    return folhaPagamentoRepository.findByFuncionarioCpfAndMes(funcionario.getCpf(), mes)
-            .orElseThrow(() -> new IllegalArgumentException("Folha de pagamento não encontrada para este funcionário e mês"));
-    }
-
-    //listar todas as folhas de pagamento de um funcionario
     public List<FolhaPagamento> MostrarTodosSalariosFuncionario(String cpf) {
-
         return folhaPagamentoRepository.findByFuncionarioCpf(cpf);
     }
 }

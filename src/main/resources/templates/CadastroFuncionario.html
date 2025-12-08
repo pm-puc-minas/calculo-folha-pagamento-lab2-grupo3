@@ -200,15 +200,14 @@
             <div class="row row-gap">
                 <div class="col-md-6">
                     <select class="form-select form-select-pill" th:field="*{periculosidade}" required>
-                        <option value="" disabled selected>Periculosidade</option>
+                        <option value=""  selected>Periculosidade</option>
                         <option th:value="true">Sim</option>
                         <option th:value="false">Não</option>
                     </select>
                 </div>
                 <div class="col-md-6">
                     <select class="form-select form-select-pill" th:field="*{grauInsalubridade}" required>
-                        <option value="" disabled selected>Insalubridade</option>
-                        <option th:value="NENHUM">Nenhum</option>
+                        <option value=""  selected>Insalubridade</option>
                         <option th:value="BAIXO">Baixo</option>
                         <option th:value="MEDIO">Médio</option>
                         <option th:value="ALTO">Alto</option>
