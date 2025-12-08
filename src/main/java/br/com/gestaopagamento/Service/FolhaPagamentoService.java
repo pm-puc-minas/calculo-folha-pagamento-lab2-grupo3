@@ -95,4 +95,8 @@ public class FolhaPagamentoService {
 
         return folhaPagamentoRepository.findByFuncionarioCpf(cpf);
     }
+    public FolhaPagamento buscarPorId(Long id) {
+        return folhaPagamentoRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Folha de pagamento não encontrada."));
+    }
 }

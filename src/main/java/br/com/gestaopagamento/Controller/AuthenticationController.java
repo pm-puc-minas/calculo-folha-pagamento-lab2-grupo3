@@ -37,7 +37,7 @@ public class AuthenticationController {
 
     @GetMapping("/register")
     public String registerForm() {
-        return "CadastroFuncionario";
+        return "Cadastro";
     }
 
     @PostMapping("/login")

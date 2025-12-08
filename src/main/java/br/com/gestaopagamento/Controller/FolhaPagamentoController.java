@@ -5,7 +5,9 @@ import br.com.gestaopagamento.Models.FolhaPagamento;
 import br.com.gestaopagamento.Service.FolhaPagamentoService;
 
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -28,9 +30,19 @@ public class FolhaPagamentoController {
             request.getHorasTrabalhadas()
         );
     }
-    @GetMapping("/mostrar_salario/{cpf}")
-    public java.util.List<FolhaPagamento> listarFolhas(@PathVariable String cpf) {
-        return folhaPagamentoService.MostrarTodosSalariosFuncionario(cpf);
+    @GetMapping("/mostrarFolha")
+    public String listarFolhas(Authentication auth, Model model) {
+        String cpf = auth.getName();
+        var folhas = folhaPagamentoService.MostrarTodosSalariosFuncionario(cpf);
+        model.addAttribute("folhas", folhas);
+        model.addAttribute("cpf", cpf);
+        return "ListarFolhas";
+    }
+    @GetMapping("/folha-de-pagamento/{id}")
+    public String mostrarFolha(@PathVariable Long id, Model model) {
+        FolhaPagamento folha = folhaPagamentoService.buscarPorId(id);
+        model.addAttribute("folha", folha);
+        return "FolhaPagamento";
     }
 
 }

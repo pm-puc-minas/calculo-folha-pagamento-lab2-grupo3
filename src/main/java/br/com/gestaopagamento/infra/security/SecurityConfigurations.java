@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -27,16 +28,26 @@ public class SecurityConfigurations {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
+                        // Rotas de Autenticação
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
                         .requestMatchers(HttpMethod.GET, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/auth/register").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/funcionarios/listarTodos").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/funcionarios/funcionario").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/funcionarios").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/funcionarios/atualizar").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/funcionarios/editar/").permitAll()
-                        .anyRequest().permitAll()
+                        
+                        // Rotas de Funcionário (Cadastro e Leitura)
+                        .requestMatchers(HttpMethod.GET,"/funcionarios").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/funcionarios").permitAll() // Liberado POST
+                        .requestMatchers(HttpMethod.GET,"/funcionarios/novo").permitAll()
+                        .requestMatchers(HttpMethod.POST,("/funcionarios/salvar")).permitAll()
+                        
+                        // Outras Páginas
+                        .requestMatchers(HttpMethod.GET, "/home").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/Calcular").permitAll() // <-- ADICIONADO DA OUTRA BRANCH
+                        
+                        // Essencial para Debug
+                        .requestMatchers(new AntPathRequestMatcher("/error")).permitAll()
+                        
+                        .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

@@ -39,7 +39,7 @@ public class Funcionario {
     private GrauInsalubridade grauInsalubridade;
 
     @Column(name = "periculosidade")
-    private boolean periculosidade;
+    private Boolean periculosidade;
 
     @Column(name = "pensao_alimenticia", precision = 10, scale = 2)
     private BigDecimal pensaoAlimenticia;
@@ -47,13 +47,9 @@ public class Funcionario {
     @Column(name = "outras_deducoes", precision = 10, scale = 2)
     private BigDecimal outrasDeducoes;
 
-    @OneToMany(
-            mappedBy = "funcionario",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.LAZY
-    )
-    private List<Dependente> dependentes = new ArrayList<>();
+   
+    @Column(name = "quantidade_dependentes")
+    private Integer dependentes = 0;
 
     @OneToMany(mappedBy = "funcionario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore

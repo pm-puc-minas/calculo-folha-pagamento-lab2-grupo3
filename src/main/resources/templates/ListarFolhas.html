@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Folhas de Pagamento</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px;
+            font-family: sans-serif;
+        }
+
+        h1.page-title {
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: 900;
+            font-size: 2.8rem;
+            margin-bottom: 30px;
+            color: black;
+        }
+
+        .card-custom {
+            background-color: #111;
+            width: 100%;
+            max-width: 1000px;
+            padding: 40px;
+            border-radius: 40px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            color: white;
+        }
+
+        table.table-custom {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: separate;
+            border-spacing: 0 10px;
+        }
+
+        table.table-custom thead th {
+            color: #ccc;
+            padding: 10px;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            border-bottom: 1px solid #444;
+        }
+
+        table.table-custom tbody td {
+            background-color: #1f1f1f;
+            padding: 15px;
+            border-bottom: 1px solid #333;
+        }
+
+        table.table-custom tbody tr td:first-child {
+            border-top-left-radius: 15px;
+            border-bottom-left-radius: 15px;
+        }
+
+        table.table-custom tbody tr td:last-child {
+            border-top-right-radius: 15px;
+            border-bottom-right-radius: 15px;
+        }
+
+        a.link-mes {
+            color: #3ddc68;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        a.link-mes:hover {
+            text-decoration: underline;
+        }
+
+        .btn-back {
+            margin-top: 20px;
+            background-color: #333;
+            color: white;
+            padding: 10px 30px;
+            border-radius: 30px;
+            border: none;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn-back:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1 class="page-title">Folhas de Pagamento</h1>
+
+<div class="card-custom">
+
+    <h4 style="color:#ccc;">
+        Funcionário CPF: <span th:text="${cpf}" style="color:white; font-weight:bold;"></span>
+    </h4>
+
+    <table class="table-custom">
+        <thead>
+        <tr>
+            <th>Mês</th>
+            <th>Horas Trabalhadas</th>
+            <th>Salário Bruto</th>
+            <th>INSS</th>
+            <th>FGTS</th>
+            <th>IRRF</th>
+            <th>Salário Líquido</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="folha : ${folhas}">
+
+            <td>
+                <a class="link-mes"
+                   th:href="@{/folha-de-pagamento/{id}(id=${folha.id})}"
+                   th:text="${folha.mes}">
+                </a>
+            </td>
+
+            <td th:text="${folha.horasTrabalhadas}"></td>
+            <td th:text="'R$ ' + ${#numbers.formatDecimal(folha.salarioBruto,1,2)}"></td>
+            <td th:text="'R$ ' + ${#numbers.formatDecimal(folha.valorINSS,1,2)}"></td>
+            <td th:text="'R$ ' + ${#numbers.formatDecimal(folha.valorFGTS,1,2)}"></td>
+            <td th:text="'R$ ' + ${#numbers.formatDecimal(folha.valorIRRF,1,2)}"></td>
+            <td th:text="'R$ ' + ${#numbers.formatDecimal(folha.salarioLiquido,1,2)}"></td>
+
+        </tr>
+        </tbody>
+    </table>
+
+    <a href="/home" class="btn-back">← Voltar</a>
+
+</div>
+
+</body>
+</html>
