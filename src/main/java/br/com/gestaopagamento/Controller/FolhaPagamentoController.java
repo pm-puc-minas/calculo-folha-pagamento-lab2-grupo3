@@ -20,24 +20,29 @@ public class FolhaPagamentoController {
         this.folhaPagamentoService = folhaPagamentoService;
     }
 
-    @PostMapping("/calcular")
-    public FolhaPagamento calcularFolha(CalculoFolhaRequest request) {
-        
-
-        return folhaPagamentoService.calcularFolha(
-            request.getCpfFuncionario(), 
-            request.getMes(), 
-            request.getHorasTrabalhadas()
-        );
-    }
+   @PostMapping("/calcular")
+public FolhaPagamento calcularFolha(CalculoFolhaRequest request) {
+    
+    
+    return folhaPagamentoService.calcularFolha(
+        request.getCpfFuncionario(), 
+        request.getMes(), 
+        request.getAno(), 
+        request.getHorasTrabalhadas()
+    );
+}
     @GetMapping("/mostrarFolha")
     public String listarFolhas(Authentication auth, Model model) {
         String cpf = auth.getName();
         var folhas = folhaPagamentoService.MostrarTodosSalariosFuncionario(cpf);
+
         model.addAttribute("folhas", folhas);
         model.addAttribute("cpf", cpf);
+
         return "ListarFolhas";
     }
+
+
     @GetMapping("/folha-de-pagamento/{id}")
     public String mostrarFolha(@PathVariable Long id, Model model) {
         FolhaPagamento folha = folhaPagamentoService.buscarPorId(id);

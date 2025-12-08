@@ -76,7 +76,7 @@
         }
 
         .btn-back {
-            margin-top: 20px;
+            margin-top: 40px; /* antes era 20px */
             background-color: #333;
             color: white;
             padding: 10px 30px;
@@ -85,7 +85,9 @@
             text-decoration: none;
             font-weight: bold;
             transition: 0.3s;
+            display: inline-block;
         }
+
 
         .btn-back:hover {
             background-color: #555;
@@ -108,11 +110,11 @@
         <tr>
             <th>Mês</th>
             <th>Horas Trabalhadas</th>
-            <th>Salário Bruto</th>
-            <th>INSS</th>
-            <th>FGTS</th>
-            <th>IRRF</th>
             <th>Salário Líquido</th>
+            <th>INSS</th>
+            <th>IRRF</th>
+            <th>Vale Transporte</th>
+            <th>Vale Alimentação</th>
         </tr>
         </thead>
 
@@ -121,20 +123,27 @@
 
             <td>
                 <a class="link-mes"
-                   th:href="@{/folha-de-pagamento/{id}(id=${folha.id})}"
+                   th:href="@{/folha/folha-de-pagamento/{id}(id=${folha.codigoPagamento})}"
                    th:text="${folha.mes}">
                 </a>
             </td>
 
             <td th:text="${folha.horasTrabalhadas}"></td>
-            <td th:text="'R$ ' + ${#numbers.formatDecimal(folha.salarioBruto,1,2)}"></td>
-            <td th:text="'R$ ' + ${#numbers.formatDecimal(folha.valorINSS,1,2)}"></td>
-            <td th:text="'R$ ' + ${#numbers.formatDecimal(folha.valorFGTS,1,2)}"></td>
-            <td th:text="'R$ ' + ${#numbers.formatDecimal(folha.valorIRRF,1,2)}"></td>
+
             <td th:text="'R$ ' + ${#numbers.formatDecimal(folha.salarioLiquido,1,2)}"></td>
+
+            <td th:text="'R$ ' + ${#numbers.formatDecimal(folha.valorINSS,1,2)}"></td>
+
+            <td th:text="'R$ ' + ${#numbers.formatDecimal(folha.valorIRRF,1,2)}"></td>
+
+            <td th:text="'R$ ' + ${#numbers.formatDecimal(folha.valorValeTransporte,1,2)}"></td>
+
+            <td th:text="'R$ ' + ${#numbers.formatDecimal(folha.valorValeAlimentacao,1,2)}"></td>
 
         </tr>
         </tbody>
+
+
     </table>
 
     <a href="/home" class="btn-back">← Voltar</a>

@@ -21,18 +21,17 @@ public class FuncionarioController {
         this.funcionarioService = funcionarioService;
     }
 
-    // Mantivemos a versão HEAD pois ela manda o objeto vazio necessário para o HTML
+
     @GetMapping("/novo")
     public String cadastroFuncionario(Model model) { 
         model.addAttribute("funcionario", new Funcionario());
         return "CadastroFuncionario"; 
     }
 
-    // Mantivemos a versão HEAD pois já trata o salvamento corretamente
+
     @PostMapping
     public String criarFuncionario(Funcionario novoFuncionario, RedirectAttributes redirectAttributes) {
         try {
-            // O campo 'dependentes' já vem preenchido automaticamente pelo th:field
             funcionarioService.criar(novoFuncionario);
             
             redirectAttributes.addFlashAttribute("mensagemSucesso", "Funcionário cadastrado com sucesso!");

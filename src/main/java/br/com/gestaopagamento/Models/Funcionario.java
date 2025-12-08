@@ -49,7 +49,7 @@ public class Funcionario {
 
    
     @Column(name = "quantidade_dependentes")
-    private Integer dependentes = 0;
+    private Integer dependentes;
 
     @OneToMany(mappedBy = "funcionario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore

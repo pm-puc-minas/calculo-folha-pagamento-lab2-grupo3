@@ -43,6 +43,7 @@
             text-transform: uppercase;
             margin-bottom: 2px;
         }
+
         .info-value {
             font-size: 1.2rem;
             font-weight: bold;
@@ -73,12 +74,18 @@
             vertical-align: middle;
         }
 
-        .table-custom tr td:first-child { border-top-left-radius: 15px; border-bottom-left-radius: 15px; }
-        .table-custom tr td:last-child { border-top-right-radius: 15px; border-bottom-right-radius: 15px; }
+        .table-custom tr td:first-child {
+            border-top-left-radius: 15px;
+            border-bottom-left-radius: 15px;
+        }
+
+        .table-custom tr td:last-child {
+            border-top-right-radius: 15px;
+            border-bottom-right-radius: 15px;
+        }
 
         .text-earning { color: #3ddc68; }
         .text-deduction { color: #ff9999; }
-        .text-reference { color: #aaa; font-style: italic; }
 
         .total-section {
             background-color: white;
@@ -89,7 +96,7 @@
         }
 
         .total-label { font-size: 1rem; font-weight: bold; }
-        .total-value { font-size: 1.5rem; font-weight: 900; text-align: right; }
+        .total-value { font-size: 1.5rem; font-weight: 900; text-align: center; }
         .net-salary { color: #008000; }
 
         .btn-action {
@@ -117,7 +124,6 @@
             .info-value { color: black !important; border-bottom: 1px solid #000; }
             .total-section { border: 1px solid #ccc; }
         }
-
     </style>
 </head>
 <body>
@@ -160,29 +166,29 @@
             <td>Salário Base</td>
             <td class="text-center">30d</td>
             <td class="text-end text-earning"
-                th:text="'R$ ' + ${#numbers.formatDecimal(folha.funcionario.salarioBruto, 1, 2)}"></td>
+                th:text="'R$ ' + ${#numbers.formatDecimal(folha.salarioLiquido, 1, 2)}"></td>
             <td></td>
         </tr>
 
-        <!-- ADICIONAIS -->
-        <tr th:each="adic : ${folha.adicionais}">
-            <td th:text="${adic.descricao}"></td>
-            <td class="text-center" th:text="${adic.referencia}"></td>
-            <td class="text-end text-earning"
-                th:text="'R$ ' + ${#numbers.formatDecimal(adic.valor, 1, 2)}"></td>
-            <td></td>
-        </tr>
-
-        <!-- DESCONTOS -->
-        <tr th:each="desc : ${folha.descontos}">
-            <td th:text="${desc.descricao}"></td>
-            <td class="text-center" th:text="${desc.referencia}"></td>
+        <!-- INSS -->
+        <tr>
+            <td>INSS</td>
+            <td class="text-center">-</td>
             <td></td>
             <td class="text-end text-deduction"
-                th:text="'R$ ' + ${#numbers.formatDecimal(desc.valor, 1, 2)}"></td>
+                th:text="'R$ ' + ${#numbers.formatDecimal(folha.valorINSS, 1, 2)}"></td>
         </tr>
 
-        <!-- BENEFÍCIOS -->
+        <!-- IRRF -->
+        <tr>
+            <td>IRRF</td>
+            <td class="text-center">-</td>
+            <td></td>
+            <td class="text-end text-deduction"
+                th:text="'R$ ' + ${#numbers.formatDecimal(folha.valorIRRF, 1, 2)}"></td>
+        </tr>
+
+        <!-- VALE ALIMENTAÇÃO -->
         <tr>
             <td>Vale Alimentação</td>
             <td class="text-center">-</td>
@@ -191,6 +197,7 @@
                 th:text="'R$ ' + ${#numbers.formatDecimal(folha.valorValeAlimentacao, 1, 2)}"></td>
         </tr>
 
+        <!-- VALE TRANSPORTE -->
         <tr>
             <td>Vale Transporte</td>
             <td class="text-center">-</td>
@@ -206,20 +213,6 @@
         <div class="row">
 
             <div class="col-4 text-center">
-                <div class="total-label">Total Vencimentos</div>
-                <div style="color: #333;"
-                     th:text="'R$ ' + ${#numbers.formatDecimal(folha.totalVencimentos, 1, 2)}">
-                </div>
-            </div>
-
-            <div class="col-4 text-center" style="border-left: 1px solid #ccc; border-right: 1px solid #ccc;">
-                <div class="total-label">Total Descontos</div>
-                <div style="color: #d9534f;"
-                     th:text="'R$ ' + ${#numbers.formatDecimal(folha.totalDescontos, 1, 2)}">
-                </div>
-            </div>
-
-            <div class="col-4 text-center">
                 <div class="total-label">SALÁRIO LÍQUIDO</div>
                 <div class="total-value net-salary"
                      th:text="'R$ ' + ${#numbers.formatDecimal(folha.salarioLiquido, 1, 2)}">
@@ -230,7 +223,7 @@
     </div>
 
     <div class="d-flex justify-content-between mt-4">
-        <a href="/mostrarFolha" class="btn-action btn-back">← Voltar</a>
+        <a th:href="@{/folha/mostrarFolha}" class="btn-action btn-back">← Voltar</a>
         <button onclick="window.print()" class="btn-action btn-print">🖨️ Imprimir</button>
     </div>
 

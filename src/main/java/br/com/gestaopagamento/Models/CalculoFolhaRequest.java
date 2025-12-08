@@ -9,5 +9,6 @@ import java.math.BigDecimal;
 public class CalculoFolhaRequest {
     private String cpfFuncionario;
     private int mes;
+    private int ano;
     private BigDecimal horasTrabalhadas;
 }
