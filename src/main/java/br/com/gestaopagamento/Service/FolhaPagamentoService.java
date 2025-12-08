@@ -86,7 +86,7 @@ public class FolhaPagamentoService {
         folha.setValorValeAlimentacao(valorValeAlimentacao);
         folha.setValorValeTransporte(valorValeTransporte);
         
-        // Salvando os impostos para exibir no holerite
+        
         folha.setValorINSS(valorINSS);
         folha.setValorIRRF(valorIRRF);
 

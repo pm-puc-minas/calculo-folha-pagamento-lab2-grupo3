@@ -37,8 +37,8 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.GET, "/auth/register").permitAll()
                         
                         // Rotas de Funcionário (Cadastro e Leitura)
-                        .requestMatchers(HttpMethod.GET,"/funcionarios").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/funcionarios").permitAll() 
+                        .requestMatchers(HttpMethod.GET,"/funcionarios/**").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/funcionarios/**").permitAll() 
                         .requestMatchers(HttpMethod.GET,"/funcionarios/novo").permitAll()
                         .requestMatchers(HttpMethod.POST,("/funcionarios/salvar")).permitAll()
                         
@@ -47,6 +47,7 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.GET, "/Calcular").permitAll() 
                         .requestMatchers(HttpMethod.POST, "/Calcular").permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/Calcular/**")).permitAll()
+                        .requestMatchers(HttpMethod.GET,"/folha/mostrarFolha").permitAll()
 
                         
                         // Essencial para Debug
