@@ -1,266 +1,133 @@
-📊 Belo Prato RH — Sistema de Gestão de Folha de Pagamento
-🧾 Visão Geral
+# 📊 Belo Prato RH — Sistema de Gestão de Folha de Pagamento
 
-O Belo Prato RH é um sistema completo de gestão de Recursos Humanos, desenvolvido em Java 17 + Spring Boot 3, com autenticação JWT e interface em Thymeleaf.
+## 🧾 Visão Geral
 
-Voltado para o setor de restaurantes, o sistema oferece:
+*Belo Prato RH* é um sistema completo de gestão de Recursos Humanos desenvolvido com *Java 17 + Spring Boot 3*, oferecendo:
 
-Cálculo automatizado da folha de pagamento (INSS, FGTS, IRRF, adicionais).
+- ✅ Cálculo automatizado da folha de pagamento (INSS, FGTS, IRRF, adicionais)
+- ✅ Cadastro e atualização de funcionários
+- ✅ Autenticação segura com JWT
+- ✅ Interface web amigável com Thymeleaf + Bootstrap
 
-Cadastro e atualização de funcionários.
+---
 
-Autenticação e controle de acesso de usuários (gerentes de RH).
+## ⚙ Tecnologias
 
-Interface web amigável desenvolvida com Thymeleaf.
+| Camada | Tecnologia |
+|--------|-----------|
+| *Backend* | Java 17 • Spring Boot 3 • Spring Security |
+| *Frontend* | Thymeleaf • HTML5 • Bootstrap |
+| *Banco de Dados* | H2 |
+| *Testes* | JUnit 5 • Mockito |
+| *Build* | Maven |
+| *Segurança* | JWT • BCrypt |
 
-⚙️ Tecnologias Utilizadas
-Camada	Tecnologia
-Backend	Java 17 • Spring Boot 3 • Spring Web • Spring Security (JWT)
-Banco de Dados	MySQL (ou outro relacional compatível)
-Frontend	Thymeleaf + HTML + Bootstrap
-Testes	JUnit 5 • Mockito
-Build	Maven
-Segurança	BCryptPasswordEncoder (criptografia de senhas)
-🚀 Como Executar o Projeto
-1️⃣ Clonar o Repositório
-git clone https://github.com/seuusuario/gestao-pagamento.git
-cd gestao-pagamento
+---
 
-2️⃣ Configurar o Banco de Dados
+## 🚀 Como Rodar o Projeto
+
+### ✨ Passo 1: Clonar o Repositório
+
+bash
+git clone https://github.com/pm-puc-minas/calculo-folha-pagamento-lab2-grupo3.git
+cd calculo-folha-pagamento-lab2-grupo3
+
+
+### ✨ Passo 2: Configurar o Banco de Dados
 
 Edite src/main/resources/application.properties:
 
+properties
 spring.datasource.url=jdbc:mysql://localhost:3306/folha_pagamento
 spring.datasource.username=root
-spring.datasource.password=123456
+spring.datasource.password=password
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
 spring.thymeleaf.cache=false
 
-3️⃣ Compilar o Projeto
+
+### ✨ Passo 3: Instalar Dependências
+
+bash
 mvn clean install
 
-4️⃣ Executar a Aplicação
+
+### ✨ Passo 4: Executar a Aplicação
+
+bash
 mvn spring-boot:run
 
 
-A aplicação estará disponível em:
-👉 http://localhost:8080
+✅ *Aplicação rodando em:* http://localhost:8080
 
-🧩 Endpoints Principais
-🔐 Autenticação (/auth)
-1. Login
+---
 
-POST /auth/login
+## 🧭 Navegação — URLs e Páginas
 
-Body:
+| URL | Método | Descrição | Página |
+|-----|--------|-----------|--------|
+| http://localhost:8080/auth/login | GET | Tela de login | *Login.html* |
+| http://localhost:8080/auth/register | GET | Cadastro de usuário | *CadastroFuncionario.html* |
+| http://localhost:8080/home | GET | Página inicial | *Home.html* |
+| http://localhost:8080/funcionarios | GET | Listagem de funcionários | *ListarFuncionarios.html* |
+| http://localhost:8080/funcionarios/novo | GET | Formulário de novo funcionário | *CadastroFuncionario.html* |
+| http://localhost:8080/Calcular | GET | Cálculo de folha de pagamento | *CalcularSalario.html* |
+| http://localhost:8080/folha | GET | Visualizar folhas geradas | *FolhaPagamento.html* |
 
-{
-  "login": "admin",
-  "password": "123456"
-}
+---
 
+## 🧮 Entidades Principais
 
-Resposta (200):
+### Funcionario
 
-{
-  "token": "jwt-gerado-aqui"
-}
+| Campo | Tipo | Descrição |
+|-------|------|-----------|
+| id | Long | Identificador único |
+| nome | String | Nome completo |
+| cpf | String | CPF único |
+| cargo | String | Cargo do funcionário |
+| salarioBruto | BigDecimal | Valor base |
+| grauInsalubridade | Enum (MINIMA, MEDIA, MAXIMA) | Grau de insalubridade |
+| periculosidade | boolean | Indica adicional |
+| pensaoAlimenticia | BigDecimal | Valor de pensão |
+| outrasDeducoes | BigDecimal | Descontos adicionais |
+| folhasPagamento | List<FolhaPagamento> | Histórico de folhas |
 
-2. Cadastro de Usuário
+### FolhaPagamento
 
-POST /auth/register
+| Campo | Tipo | Descrição |
+|-------|------|-----------|
+| codigoPagamento | Long | Código único |
+| funcionario | Funcionario | Funcionário vinculado |
+| mes | int | Mês de referência |
+| horasTrabalhadas | BigDecimal | Horas trabalhadas |
+| salarioLiquido | BigDecimal | Valor líquido |
+| valorValeAlimentacao | BigDecimal | Vale alimentação |
+| valorValeTransporte | BigDecimal | Vale transporte |
 
-Body:
+---
 
-{
-  "login": "novo_user",
-  "password": "senha123",
-  "role": "ADMIN"
-}
+## 🧪 Testes Unitários
 
+Execute os testes com:
 
-Respostas:
-
-✅ 200 OK — Usuário criado
-
-⚠️ 400 Bad Request — Login já existente
-
-💡 O token JWT retornado deve ser enviado no header Authorization:
-Authorization: Bearer <token>
-
-👨‍🍳 Funcionários (/funcionarios)
-1. Criar Funcionário
-
-POST /funcionarios
-
-Body:
-
-{
-  "nome": "Maria Souza",
-  "cpf": "12345678901",
-  "cargo": "Cozinheira",
-  "salarioBruto": 2500.00,
-  "periculosidade": false,
-  "grauInsalubridade": "MEDIA",
-  "pensaoAlimenticia": 0.0,
-  "outrasDeducoes": 0.0
-}
-
-
-Resposta (201):
-
-{
-  "id": 1,
-  "nome": "Maria Souza",
-  "cpf": "12345678901",
-  "salarioBruto": 2500.00
-}
-
-2. Listar Funcionários
-
-GET /funcionarios/listarTodos
-
-Resposta (200):
-
-[
-  {
-    "id": 1,
-    "nome": "Maria Souza",
-    "cpf": "12345678901",
-    "cargo": "Cozinheira"
-  }
-]
-
-3. Atualizar Funcionário
-
-PUT /funcionarios/atualizar
-
-Body:
-
-{
-  "cpf": "12345678901",
-  "cargo": "Gerente de Cozinha",
-  "salarioBruto": 3200.00
-}
-
-
-Resposta (200):
-
-{
-  "cpf": "12345678901",
-  "cargo": "Gerente de Cozinha",
-  "salarioBruto": 3200.00
-}
-
-💰 Folha de Pagamento (/folha)
-1. Calcular Folha
-
-POST /folha/calcular
-
-Body:
-
-{
-  "cpfFuncionario": "12345678901",
-  "mes": 10,
-  "horasTrabalhadas": 180
-}
-
-
-Resposta (200):
-
-{
-  "codigoPagamento": 12,
-  "mes": 10,
-  "salarioLiquido": 2135.00,
-  "valorValeAlimentacao": 350.00,
-  "valorValeTransporte": 220.00
-}
-
-2. Listar Folhas por Funcionário
-
-GET /folha/mostrar_salario/{cpf}
-Exemplo:
-GET /folha/mostrar_salario/12345678901
-
-Resposta (200):
-
-[
-  {
-    "mes": 9,
-    "salarioLiquido": 2150.00
-  },
-  {
-    "mes": 10,
-    "salarioLiquido": 2135.00
-  }
-]
-
-🧮 Entidades Principais
-Funcionario
-Campo	Tipo	Descrição
-id	Long	Identificador único
-nome	String	Nome completo
-cpf	String	CPF único
-cargo	String	Cargo do funcionário
-salarioBruto	BigDecimal	Valor base
-grauInsalubridade	Enum (MINIMA, MEDIA, MAXIMA)	Grau de insalubridade
-periculosidade	boolean	Indica adicional
-pensaoAlimenticia	BigDecimal	Valor de pensão
-outrasDeducoes	BigDecimal	Descontos adicionais
-folhasPagamento	List<FolhaPagamento>	Histórico de folhas
-FolhaPagamento
-Campo	Tipo	Descrição
-codigoPagamento	Long	Código único
-funcionario	Funcionario	Funcionário vinculado
-mes	int	Mês de referência
-horasTrabalhadas	BigDecimal	Horas trabalhadas
-salarioLiquido	BigDecimal	Valor líquido
-valorValeAlimentacao	BigDecimal	Vale alimentação
-valorValeTransporte	BigDecimal	Vale transporte
-🧪 Testes Unitários
-
-Execute:
-
+bash
 mvn test
 
 
 Os testes validam:
+- ✅ Autenticação e geração de tokens JWT
+- ✅ Criação e atualização de funcionários
+- ✅ Cálculo de folha de pagamento
+- ✅ Validação de descontos e adicionais
 
-Autenticação e geração de tokens JWT
+---
 
-Criação e atualização de funcionários
+## 🧠 Conceitos de POO Aplicados
 
-Cálculo de folha de pagamento
+- *Herança*: Reutilização de lógica de cálculo entre classes
+- *Polimorfismo*: Diferentes tipos de cálculo salarial com o mesmo método
+- *Encapsulamento*: Atributos protegidos e acessados via getters/setters
+- *Interface*: Contrato de cálculos (Calculavel → calcular())
 
-🧠 Conceitos de POO Aplicados
-
-Herança: Reutilização de lógica de cálculo entre classes.
-
-Polimorfismo: Diferentes tipos de cálculo salarial com o mesmo método (calcularSalarioFinal()).
-
-Encapsulamento: Atributos protegidos e acessados via getters/setters.
-
-Interface: Contrato de cálculos (Calculavel → calcular()).
-
-💡 Próximos Passos
-
-🔐 Expandir autenticação com controle de roles (ADMIN, USER).
-
-📊 Criar dashboards com gráficos de desempenho no Thymeleaf.
-
-🧾 Adicionar exportação de relatórios em PDF.
-
-💾 Integrar cache e logs de auditoria.
-
-🖥️ Interface com Thymeleaf
-
-O frontend utiliza Thymeleaf para renderização dinâmica de páginas HTML com dados do backend.
-Exemplo de páginas planejadas:
-
-Página	Descrição
-/login	Tela de login do gerente (autenticação JWT)
-/cadastro	Cadastro de novos usuários
-/funcionarios	Lista e cadastro de funcionários
-/folha	Cálculo e visualização da folha de pagamento
-/relatorios	Exibição gráfica de estatísticas salariais
+---
